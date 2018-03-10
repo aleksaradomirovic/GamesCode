@@ -13,8 +13,8 @@ public class Road extends Object{
 	GamePanel game;
 	public Road(int x, int y, GamePanel p) {
 		super(x, y, 0, p, null);
-		this.x = x*40;
-		this.y = y*40;
+		this.x = x*80;
+		this.y = y*80;
 		try {
 			img = ImageIO.read(this.getClass().getResourceAsStream("terrain/roads/2lane_1.png"));
 		} catch(IOException e) {
@@ -31,6 +31,6 @@ public class Road extends Object{
 	
 	@Override
 	public void draw(Graphics g) {
-		g.drawImage(img,x_s,y_s,img.getWidth()*4,img.getHeight()*4,null);
+		g.drawImage(img,x_s,y_s,img.getWidth()*8,img.getHeight()*8,null);
 	}
 }
