@@ -13,13 +13,14 @@ public class Road extends Object{
 	GamePanel game;
 	public Road(int x, int y, GamePanel p) {
 		super(x, y, 0, p, null);
-		this.x = x;
-		this.y = y;
+		this.x = x*40;
+		this.y = y*40;
 		try {
 			img = ImageIO.read(this.getClass().getResourceAsStream("terrain/roads/2lane_1.png"));
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		game = p;
 	}
 	
 	@Override

@@ -1,3 +1,4 @@
+
 package game;
 
 import java.awt.Dimension;
@@ -29,9 +30,12 @@ public class Settlement {
 	void init() {
 		int roadY = 0;
 		
-		for(int i = 0; i < size; i++, roadY++) {
-			gridLayout[(int)(size/2)][0] = new Road((int)(size/2),roadY,game);
+		for(int i = 0; i < size; i++) {
+			gridLayout[size/2][roadY] = new Road(size/2,roadY,game);
+			roadY++;
 		}
+		System.out.println(size);
+		System.out.println(roadY);
 	}
 	
 	void update() {
@@ -49,5 +53,22 @@ public class Settlement {
 					gridLayout[j][i].draw(g);
 			}
 		}
+	}
+	
+	boolean adjacentToRoad(int x, int y) {
+		if(gridLayout[x][y] == null) {
+			boolean r = false;
+			if(gridLayout[x-1][y] instanceof Road) {
+				r = true;
+			} if(gridLayout[x+1][y] instanceof Road) {
+				r = true;
+			} if(gridLayout[x][y-1] instanceof Road) {
+				r = true;
+			} if(gridLayout[x][y+1] instanceof Road) {
+				r = true;
+			}
+			return r;
+		}
+		return false;
 	}
 }

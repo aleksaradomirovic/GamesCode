@@ -21,10 +21,10 @@ public class Game {
 			+ " - Fixed chunk cluster glitch\n"
 			+ " - Adding foliage soon\n"
 			+ "0.2.2\n"
-			+ " - Added foliage (shitty lowres pine trees)\n"
+			+ " - Added foliage (crappy lowres pine trees)\n"
 			+ "0.2.3\n"
-			+ " - Added basic building objects (currently just a clusterfuck of houses replaced the"
-			+ "clusterfuck of mailboxes)\n"
+			+ " - Added basic building objects (currently just a ton of houses replaced the"
+			+ " ton of mailboxes)\n"
 			+ " - Plan to add settlement generator and road";
 	
 	void setup() throws IOException {

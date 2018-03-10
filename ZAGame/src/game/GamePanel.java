@@ -9,9 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.Timer;
 
 import game.itemTypes.Item;
@@ -46,9 +44,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		for(int i = 0; i < 20; i++) {
 			items.spawnItem(rnd.nextInt(Item.items)+1);
 		}
-		//for(int i = 0; i < 20; i++) {
-			//terrain.spawnObject(1);
-		//}
+//		for(int i = 0; i < 20; i++) {
+//			terrain.spawnObject(1);
+//		}
 		System.out.println("StartGame");
 		terrain.genChunk(0,0);
 	}
@@ -63,9 +61,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 	void drawGame(Graphics g) {
 		//Background
-		g.setFont(classic);
-		g.setColor(Color.GREEN);
-		g.fillRect(0, 0, 800, 800);
+//		g.setFont(classic);
+//		g.setColor(Color.GREEN);
+//		g.fillRect(0, 0, 800, 800);
 		
 		//Items and entities
 		terrain.draw(g);

@@ -27,6 +27,7 @@ public class Food extends Item {
 		invContextMenu.add(type);
 	}
 	
+	@Override
 	public void handleSpecialCommand(String c) {
 		if(c.equals(type)) {
 			game.status.hp += vars[id-1][3];

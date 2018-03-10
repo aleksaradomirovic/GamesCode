@@ -28,6 +28,7 @@ public class Weapon extends Item implements MouseListener{
 	@Override
 	public void handleSpecialCommand(String c) {
 		if(c.equals("Equip")) {
+			game.p1.setWeapon(this);
 			equipped = true;
 			
 			invContextMenu.remove("Equip");

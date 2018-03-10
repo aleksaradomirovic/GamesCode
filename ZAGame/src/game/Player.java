@@ -12,13 +12,15 @@ import javax.imageio.ImageIO;
 
 import game.itemTypes.Clothes;
 import game.itemTypes.Item;
+import game.itemTypes.Weapon;
 
 public class Player {
 	BufferedImage body, legs, head;
 	public Rectangle hitBox = new Rectangle(389,285,22,30);
 	public ArrayList<Item> inventory = new ArrayList<Item>();
-	public int x,y;
+	public int x = 400,y = 300;
 	public boolean up, down, left, right;
+	public Weapon weapon;
 	public Clothes shirt, pants;
 	public int speed = 5;
 	GamePanel game;
@@ -124,5 +126,10 @@ public class Player {
 		if(pants != null)
 			pants.handleCommand("Undress");
 		pants = c;
+	}
+	public void setWeapon(Weapon w) {
+		if(weapon != null) 
+			weapon.handleCommand("Dequip");
+		weapon = w;
 	}
 }
