@@ -1,0 +1,44 @@
+package game;
+
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Random;
+
+import javax.imageio.ImageIO;
+
+public class Foliage {
+	public static final int normal = 0;
+	int x,y;
+	BufferedImage img;
+	String[] normalFoliageNames = new String[]
+			{"Tree"};
+	String name;
+	Terrain parent;
+	int xv, yv;
+	
+	public Foliage(Terrain t, int type, int id) {
+		parent = t;
+		
+		xv = new Random().nextInt(200);
+		yv = new Random().nextInt(200);
+		
+		if(type == normal) {
+			name = normalFoliageNames[id];
+		}
+		
+		try {
+			img = ImageIO.read(this.getClass().getResourceAsStream("terrain/foliage/"+name+".png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	void update() {
+		x = parent.parent.x_s + parent.xpos + xv;
+		y = parent.parent.y_s + parent.ypos + yv;
+	}
+	void draw(Graphics g) {
+		g.drawImage(img,x,y,img.getWidth()*5,img.getHeight()*5,null);
+	}
+}
