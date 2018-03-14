@@ -78,4 +78,6 @@ public class Object {
 	public void draw(Graphics g) {
 		g.drawImage(img, x_s, y_s, img.getWidth() * sizeFactor, img.getHeight() * sizeFactor, null);
 	}
+	
+	public void drawRoof(Graphics g) {}
 }

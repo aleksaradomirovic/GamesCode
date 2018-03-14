@@ -33,7 +33,7 @@ public class Foliage {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		hitbox = new Rectangle(parent.parent.x + xv, parent.parent.y + yv, img.getWidth() * 10, img.getHeight() * 10);
+		hitbox = new Rectangle(parent.parent.x + parent.xpos + xv, parent.parent.y + parent.ypos + yv, img.getWidth() * 5, img.getHeight() * 5);
 	}
 
 	void update() {

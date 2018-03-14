@@ -28,8 +28,10 @@ public class Building extends Object {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		table = new ItemTable(0, game, this);
+		
+		if(id == 1) {
+			table = new ItemTable(0, game, this);
+		}
 	}
 
 	@Override
@@ -46,7 +48,10 @@ public class Building extends Object {
 	@Override
 	public void draw(Graphics g) {
 		g.drawImage(floor, x_s, y_s, floor.getWidth() * sizeFactor, floor.getHeight() * sizeFactor, null);
-
+	}
+	
+	@Override
+	public void drawRoof(Graphics g) {
 		if (!indoors) {
 			g.drawImage(roof, x_s, y_s, roof.getWidth() * sizeFactor, roof.getHeight() * sizeFactor, null);
 		}

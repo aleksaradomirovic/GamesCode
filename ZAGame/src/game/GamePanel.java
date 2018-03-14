@@ -15,7 +15,8 @@ import javax.swing.Timer;
 import game.itemTypes.Item;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
-
+	private static final long serialVersionUID = 1L;
+	
 	Timer cap = new Timer(1000 / 60, this);
 	public Player p1 = new Player(this);
 	public ItemManager items = new ItemManager(this);
@@ -25,7 +26,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Random rnd = new Random();
 	String message;
 	int GameTimer = 0;
-	Settlement s = new Settlement(0, 0, 2 * rnd.nextInt(5), this, terrain);
+	Settlement s = new Settlement(0, 0, 2 * rnd.nextInt(5)+2,3 + 2 * rnd.nextInt(2), this, terrain);
 
 	public Font classic = new Font("Arial", Font.PLAIN, 10);
 	public Font statusMessage = new Font("Terminal", Font.BOLD, 20);
@@ -42,12 +43,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	void startGame() {
 		cap.start();
-		for (int i = 0; i < 20; i++) {
-			items.spawnItem(rnd.nextInt(Item.items) + 1);
-		}
-		// for(int i = 0; i < 20; i++) {
-		// terrain.spawnObject(1);
-		// }
+//		for (int i = 0; i < 20; i++) {
+//			items.spawnItem(rnd.nextInt(Item.items) + 1);
+//		}
+//		for(int i = 0; i < 20; i++) {
+//			terrain.spawnObject(1);
+//		}
 		System.out.println("StartGame");
 		terrain.genChunk(0, 0);
 	}
@@ -71,6 +72,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		terrain.draw(g);
 		s.draw(g);
 		items.draw(g);
+		s.drawRoof(g);
 		p1.draw(g);
 		terrain.drawFoliage(g);
 
