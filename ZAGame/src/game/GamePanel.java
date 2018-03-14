@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Random rnd = new Random();
 	String message;
 	int GameTimer = 0;
-	Settlement s = new Settlement(0,0,4,this);
+	Settlement s = new Settlement(0,0,4,this,terrain);
 	
 	public Font classic = new Font("Arial",Font.PLAIN,10);
 	public Font statusMessage = new Font("Terminal",Font.BOLD,20);
@@ -67,8 +67,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		//Items and entities
 		terrain.draw(g);
-		items.draw(g);
 		s.draw(g);
+		items.draw(g);
 		p1.draw(g);
 		terrain.drawFoliage(g);
 		

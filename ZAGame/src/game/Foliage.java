@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
@@ -16,12 +17,15 @@ public class Foliage {
 	String name;
 	Terrain parent;
 	int xv, yv;
+	Rectangle hitbox;
 	
 	public Foliage(Terrain t, int type, int id) {
 		parent = t;
 		
 		xv = new Random().nextInt(200);
 		yv = new Random().nextInt(200);
+		
+		
 		
 		if(type == normal) {
 			name = normalFoliageNames[id];
@@ -32,6 +36,7 @@ public class Foliage {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		hitbox = new Rectangle(parent.xpos+xv,parent.ypos+yv,img.getWidth()*10,img.getHeight()*10);
 	}
 	
 	void update() {
@@ -39,6 +44,7 @@ public class Foliage {
 		y = parent.parent.y_s + parent.ypos + yv;
 	}
 	void draw(Graphics g) {
-		g.drawImage(img,x,y,img.getWidth()*5,img.getHeight()*5,null);
+		if(!hitbox.intersects(parent.parent.game.s.settlementBox))
+			g.drawImage(img,x,y,img.getWidth()*5,img.getHeight()*5,null);
 	}
 }

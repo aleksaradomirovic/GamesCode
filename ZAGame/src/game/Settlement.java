@@ -4,18 +4,26 @@ package game;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+
+import game.objects.Building;
+import game.objects.NullObjectSpace;
 import game.objects.Object;
 
 public class Settlement {
-	public static final int grid = 50;
+	public static final int grid = 80;
 	Rectangle settlementBox;
 	GamePanel game;
+	TerrainManager parent;
 	
 	Object[][] gridLayout;
 	int size;
+	int x, y;
 	
-	public Settlement(int x, int y, int size, GamePanel p) {
+	public Settlement(int x, int y, int size, GamePanel p, TerrainManager t) {
+		parent = t;
 		game = p;
+		this.x = x;
+		this.y = y;
 		this.size = size;
 		settlementBox = new Rectangle(x,y,size*grid,size*grid);
 		gridLayout = new Object[size][size];
@@ -34,8 +42,14 @@ public class Settlement {
 			gridLayout[size/2][roadY] = new Road(size/2,roadY,game);
 			roadY++;
 		}
-		System.out.println(size);
-		System.out.println(roadY);
+		
+		for(int i = 0; i < size; i++) {
+			for(int j = 0; j < size; j++) {
+				if(gridLayout[j][i] == null && adjacentToRoad(j,i)) {
+					addHouse(2, j, i);
+				}
+			}
+		}
 	}
 	
 	void update() {
@@ -49,7 +63,13 @@ public class Settlement {
 	void draw(Graphics g) {
 		for(int i = 0; i < size; i++) {
 			for(int j = 0; j < size; j++) {
-				if(gridLayout[j][i] != null)
+				if(gridLayout[j][i] != null && gridLayout[j][i] instanceof Road)
+					gridLayout[j][i].draw(g);
+			}
+		}
+		for(int i = 0; i < size; i++) {
+			for(int j = 0; j < size; j++) {
+				if(gridLayout[j][i] != null && gridLayout[j][i] instanceof Building)
 					gridLayout[j][i].draw(g);
 			}
 		}
@@ -58,17 +78,30 @@ public class Settlement {
 	boolean adjacentToRoad(int x, int y) {
 		if(gridLayout[x][y] == null) {
 			boolean r = false;
-			if(gridLayout[x-1][y] instanceof Road) {
+			if(x > 0 && gridLayout[x-1][y] instanceof Road) {
 				r = true;
-			} if(gridLayout[x+1][y] instanceof Road) {
+			} if(x < size - 1 && gridLayout[x+1][y] instanceof Road) {
 				r = true;
-			} if(gridLayout[x][y-1] instanceof Road) {
+			} if(y > 0 && gridLayout[x][y-1] instanceof Road) {
 				r = true;
-			} if(gridLayout[x][y+1] instanceof Road) {
+			} if(y < size - 1 && gridLayout[x][y+1] instanceof Road) {
 				r = true;
 			}
 			return r;
 		}
 		return false;
+	}
+	
+	void addHouse(int size,int x,int y) {
+		for(int i = 0; i < size; i++) {
+			for(int j = 0; j < size; j++) {
+				if(j+x < this.size && i+y < this.size) {
+					if(gridLayout[j+x][i+y] == null)
+						gridLayout[j+x][i+y] = new NullObjectSpace(game);
+					System.out.println("Added null settlement object");
+				}
+			}
+		}
+		gridLayout[x][y] = new Building(this.x+(x*grid), this.y+(y*grid),1,game,parent);
 	}
 }

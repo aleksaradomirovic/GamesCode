@@ -31,6 +31,6 @@ public class Road extends Object{
 	
 	@Override
 	public void draw(Graphics g) {
-		g.drawImage(img,x_s,y_s,img.getWidth()*8,img.getHeight()*8,null);
+		g.drawImage(img,x_s,y_s,(int)(img.getWidth()*7.5),img.getHeight()*8,null);
 	}
 }

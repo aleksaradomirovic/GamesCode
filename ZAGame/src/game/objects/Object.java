@@ -23,13 +23,13 @@ public class Object {
 	int sizeFactor = 2;
 	
 	public Object(int x, int y, int id, GamePanel p, TerrainManager t) {
+		game = p;
 		if(t != null) {
 			name = t.names[id];
 			vars = t.vars[id];
 			this.id = id;
 			this.x = x;
 			this.y = y;
-			game = p;
 		
 			try {
 				if(t.vars[id][1] != TerrainManager.type_building) {
