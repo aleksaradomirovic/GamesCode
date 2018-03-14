@@ -10,41 +10,39 @@ import javax.imageio.ImageIO;
 
 public class Foliage {
 	public static final int normal = 0;
-	int x,y;
+	int x, y;
 	BufferedImage img;
-	String[] normalFoliageNames = new String[]
-			{"Tree"};
+	String[] normalFoliageNames = new String[] { "Tree" };
 	String name;
 	Terrain parent;
 	int xv, yv;
 	Rectangle hitbox;
-	
+
 	public Foliage(Terrain t, int type, int id) {
 		parent = t;
-		
+
 		xv = new Random().nextInt(200);
 		yv = new Random().nextInt(200);
-		
-		
-		
-		if(type == normal) {
+
+		if (type == normal) {
 			name = normalFoliageNames[id];
 		}
-		
+
 		try {
-			img = ImageIO.read(this.getClass().getResourceAsStream("terrain/foliage/"+name+".png"));
+			img = ImageIO.read(this.getClass().getResourceAsStream("terrain/foliage/" + name + ".png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		hitbox = new Rectangle(parent.xpos+xv,parent.ypos+yv,img.getWidth()*10,img.getHeight()*10);
+		hitbox = new Rectangle(parent.parent.x + xv, parent.parent.y + yv, img.getWidth() * 10, img.getHeight() * 10);
 	}
-	
+
 	void update() {
 		x = parent.parent.x_s + parent.xpos + xv;
 		y = parent.parent.y_s + parent.ypos + yv;
 	}
+
 	void draw(Graphics g) {
-		if(!hitbox.intersects(parent.parent.game.s.settlementBox))
-			g.drawImage(img,x,y,img.getWidth()*5,img.getHeight()*5,null);
+		if (!hitbox.intersects(parent.parent.game.s.settlementBox))
+			g.drawImage(img, x, y, img.getWidth() * 5, img.getHeight() * 5, null);
 	}
 }

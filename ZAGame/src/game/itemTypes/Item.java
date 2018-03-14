@@ -15,9 +15,9 @@ public class Item {
 	/*
 	 * id, type (0 generic, 1 clothes, 2 food), sectype, othervars [3-9]
 	 */
-	
+
 	public static final int clothes = 1, food = 2, weapon = 3;
-	
+
 	int x, y, id;
 	int x_s, y_s;
 	BufferedImage img;
@@ -26,65 +26,69 @@ public class Item {
 	public ArrayList<String> invContextMenu = new ArrayList<String>();
 	utils u = new utils();
 	ItemGeneral info = new ItemGeneral();
-	
+
 	public final static int items = 6;
 	public static int vars[][] = new int[items][10];
-	
-	public final static String[] names = new String[]
-			{"Green Parka","Jeans","Red Shirt","Soda","Bleach","Pickaxe"};
-	
+
+	public final static String[] names = new String[] { "Green Parka", "Jeans", "Red Shirt", "Soda", "Poison",
+			"Pickaxe" };
+
 	public String name;
+
 	public Item(int x, int y, int id, GamePanel p, String name, ItemGeneral i) {
 		init();
-		
+
 		this.x = x;
 		this.y = y;
 		this.id = id;
 		try {
-			img = ImageIO.read(this.getClass().getResourceAsStream("image/"+id+".png"));
-		} catch(IOException e) {
+			img = ImageIO.read(this.getClass().getResourceAsStream("image/" + id + ".png"));
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		game = p;
 		this.name = name;
 	}
-	
-	public void drawIfEquipped(Graphics g) {};
-	
+
+	public void drawIfEquipped(Graphics g) {
+	};
+
 	public void update() {
-		hitBox.setBounds(x_s, y_s, img.getWidth()*2, img.getHeight()*2);
-		if(hitBox.intersects(game.p1.hitBox)) {
+		hitBox.setBounds(x_s, y_s, img.getWidth() * 2, img.getHeight() * 2);
+		if (hitBox.intersects(game.p1.hitBox)) {
 			game.ds = true;
-			if(game.pickup) {
+			if (game.pickup) {
 				game.p1.inventory.add(this);
 				game.items.items.remove(this);
 			}
 		}
 	}
+
 	public void draw(Graphics g) {
 		x_s = x - game.p1.x;
 		y_s = y - game.p1.y;
-		g.drawImage(img, x_s, y_s, img.getWidth()*2, img.getHeight()*2, null);
+		g.drawImage(img, x_s, y_s, img.getWidth() * 2, img.getHeight() * 2, null);
 	}
-	
+
 	void addGeneralContext() {
 		invContextMenu.add("Drop");
 	}
-	
+
 	public void handleCommand(String command) {
-		if(command.equals("Drop")) {
-			x = game.p1.x+400;
-			y = game.p1.y+300;
-			
+		if (command.equals("Drop")) {
+			x = game.p1.x + 400;
+			y = game.p1.y + 300;
+
 			game.items.items.add(this);
 			game.p1.inventory.remove(this);
 		} else {
 			handleSpecialCommand(command);
 		}
 	}
-	
-	public void handleSpecialCommand(String command) {}
-	
+
+	public void handleSpecialCommand(String command) {
+	}
+
 	void init() {
 		vars = info.vars;
 	}
