@@ -69,6 +69,7 @@ public class Object {
 		// }
 		x_s = x - game.p1.x;
 		y_s = y - game.p1.y;
+		//System.out.println(x_s+", "+y_s);
 		updateIndoors();
 	}
 

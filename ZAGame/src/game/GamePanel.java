@@ -36,6 +36,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public StatusManager status = new StatusManager(this);
 	Game frame;
 	public boolean generate;
+	boolean debug = false;
 
 	public GamePanel(Game g) {
 		frame = g;
@@ -88,6 +89,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		status.draw(g);
 		p1.drawInventory(g, classic);
+		
+		if(true)
+			drawDebug(g);
 	}
 
 	@Override
@@ -193,11 +197,23 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			} else {
 				inv = false;
 			}
+		} if(e.getKeyCode() == KeyEvent.VK_EQUALS) {
+			if(debug) {
+				debug = false;
+			} else {
+				debug = true;
+			}
 		}
 	}
 
 	public void displayString(String d) {
 		message = d;
 		ds = true;
+	}
+	
+	void drawDebug(Graphics g) {
+		g.setColor(Color.BLACK);
+		g.setFont(classic);
+		g.drawString("XY player1: ("+p1.x+","+p1.y+")", 10, 25);
 	}
 }

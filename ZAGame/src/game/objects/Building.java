@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 
 import game.GamePanel;
 import game.ItemTable;
+import game.Settlement;
 import game.TerrainManager;
 
 public class Building extends Object {
@@ -18,8 +19,11 @@ public class Building extends Object {
 
 	boolean indoors;
 
-	public Building(int x, int y, int id, GamePanel p, TerrainManager t) {
+	public Building(int x, int y, int id, GamePanel p, TerrainManager t, Settlement s) {
 		super(x, y, id, p, t);
+		
+		this.x = x*Settlement.grid + s.x;
+		this.y = y*Settlement.grid + s.y;
 
 		sizeFactor = 4;
 		try {
@@ -47,6 +51,7 @@ public class Building extends Object {
 
 	@Override
 	public void draw(Graphics g) {
+		System.out.println("drew house: "+x+","+y);
 		g.drawImage(floor, x_s, y_s, floor.getWidth() * sizeFactor, floor.getHeight() * sizeFactor, null);
 	}
 	

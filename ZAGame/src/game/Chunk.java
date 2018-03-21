@@ -45,6 +45,8 @@ public class Chunk {
 				chunk[j][i].update();
 			}
 		}
+		if(chunkSettlement != null)
+			chunkSettlement.update();
 	}
 	void draw(Graphics g) {
 		//System.out.println("Processed Chunk");

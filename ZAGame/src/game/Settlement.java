@@ -1,10 +1,14 @@
 
 package game;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Random;
 
+import game.entity.Entity;
 import game.objects.Building;
 import game.objects.NullObjectSpace;
 import game.objects.Object;
@@ -16,8 +20,10 @@ public class Settlement {
 	TerrainManager parent;
 	
 	Object[][] gridLayout;
-	int x, y;
-	int w, h;
+	public int x, y;
+	public int w, h;
+	
+	ArrayList<Entity> zombies = new ArrayList<Entity>();
 	
 	public Settlement(int x, int y, int height,int width, GamePanel p, TerrainManager t) {
 		parent = t;
@@ -30,6 +36,8 @@ public class Settlement {
 		gridLayout = new Object[width][height];
 		
 		init();
+		
+		parent.settlements.add(this);
 	}
 	
 	Dimension fromBoxGrid(int x, int y, int setX, int setY) {
@@ -44,7 +52,7 @@ public class Settlement {
 			for(int i = 0; i < h; i++) {
 				System.out.println(roadX +","+ roadY);
 				
-				gridLayout[roadX][roadY] = new Road(1,roadY,game);
+				gridLayout[roadX][roadY] = new Road(roadX,roadY,game, this);
 				roadY++;
 			}
 			roadX+=2;
@@ -57,17 +65,28 @@ public class Settlement {
 				}
 			}
 		}
+		
+		for(int i = 0; i < 5; i++) {
+			zombies.add(new Entity(new Random().nextInt(w*grid), new Random().nextInt(h*grid),this,true,game));
+		}
 	}
 	
 	void update() {
+		//System.out.println("Updated");
 		for(int i = 0; i < h; i++) {
 			for(int j = 0; j < w; j++) {
 				if(gridLayout[j][i] != null)
 					gridLayout[j][i].update();
 			}
 		}
+		
+		for(int i = 0; i < zombies.size(); i++) {
+			zombies.get(i).update();
+		}
 	}
 	void draw(Graphics g) {
+		//g.setColor(Color.BLACK);
+		//g.fillRect(x, y, w*grid, h*grid);
 		for(int i = 0; i < h; i++) {
 			for(int j = 0; j < w; j++) {
 				if(gridLayout[j][i] != null && gridLayout[j][i] instanceof Road)
@@ -83,6 +102,9 @@ public class Settlement {
 	}
 	
 	void drawRoof(Graphics g) {
+		for(int i = 0; i < zombies.size(); i++) {
+			zombies.get(i).draw(g);
+		}
 		for(int i = 0; i < h; i++) {
 			for(int j = 0; j < w; j++) {
 				if(gridLayout[j][i] != null && gridLayout[j][i] instanceof Building)
@@ -118,6 +140,6 @@ public class Settlement {
 				}
 			}
 		}
-		gridLayout[x][y] = new Building(this.x+(x*grid), this.y+(y*grid),1,game,parent);
+		gridLayout[x][y] = new Building(x, y,1,game,parent,this);
 	}
 }

@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 
-import game.objects.Building;
 import game.objects.Object;
 
 public class TerrainManager {
@@ -34,13 +33,6 @@ public class TerrainManager {
 		init();
 	}
 	
-	public void spawnObject(int id) {
-		if(vars[id][1] == type_building) {
-			worldObjects.add(new Building(rnd.nextInt(801),rnd.nextInt(801),id,game,this));
-		} else {
-			worldObjects.add(new Object(rnd.nextInt(801),rnd.nextInt(801),id,game,this));
-		}
-	}
 	public void genChunk(int x, int y) {
 		if(!chunkloc.contains(new Dimension(x,y))) {
 			game.generate = true;

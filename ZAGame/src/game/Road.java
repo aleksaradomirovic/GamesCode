@@ -11,10 +11,10 @@ public class Road extends Object{
 	int x_s, y_s;
 	int x,y;
 	GamePanel game;
-	public Road(int x, int y, GamePanel p) {
+	public Road(int x, int y, GamePanel p, Settlement s) {
 		super(x, y, 0, p, null);
-		this.x = x*80;
-		this.y = y*80;
+		this.x = x*Settlement.grid+s.x;
+		this.y = y*Settlement.grid+s.y;
 		try {
 			img = ImageIO.read(this.getClass().getResourceAsStream("terrain/roads/2lane_1.png"));
 		} catch(IOException e) {
@@ -31,6 +31,7 @@ public class Road extends Object{
 	
 	@Override
 	public void draw(Graphics g) {
+		System.out.println("Drew: "+x+","+y);
 		g.drawImage(img,x_s,y_s,(int)(img.getWidth()*7.5),img.getHeight()*8,null);
 	}
 }
