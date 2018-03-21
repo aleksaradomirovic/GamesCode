@@ -8,6 +8,9 @@ public class Chunk {
 	
 	public static final int chunkSize = 4;
 	public static final int width = chunkSize*200;
+	public static final int settlementChance = 10;
+	
+	Settlement chunkSettlement;
 	
 	public Terrain[][] chunk = new Terrain[chunkSize][chunkSize];
 	GamePanel game;
@@ -27,6 +30,9 @@ public class Chunk {
 				chunk[j][i] = new Terrain(biome,this,j,i);
 				// System.out.println(i*chunkSize+j);
 			}
+		}
+		if(new Random().nextInt(100) < settlementChance) {
+			chunkSettlement = new Settlement(x,y, 2 * new Random().nextInt(5)+2,3 + 2 * new Random().nextInt(2), game, game.terrain);
 		}
 	}
 	
@@ -50,7 +56,14 @@ public class Chunk {
 			}
 			game.terrain.generateAround(this);
 		}
+		if(chunkSettlement != null)
+			chunkSettlement.draw(g);
 	}
+	void drawRoof(Graphics g) {
+		if(chunkSettlement != null)
+			chunkSettlement.drawRoof(g);
+	}
+	
 	void drawFoliage(Graphics g) {
 		if(renderBox.intersects(-100,-100,1000,800)) {
 			for(int i = 0; i < chunkSize; i++) {

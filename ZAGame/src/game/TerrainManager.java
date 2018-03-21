@@ -25,6 +25,8 @@ public class TerrainManager {
 	
 	ArrayList<Dimension> chunkloc = new ArrayList<Dimension>();
 	ArrayList<Chunk> terrain = new ArrayList<Chunk>();
+	ArrayList<Settlement> settlements = new ArrayList<Settlement>();
+	
 	GamePanel game;
 	
 	public TerrainManager(GamePanel p) {
@@ -71,6 +73,12 @@ public class TerrainManager {
 			worldObjects.get(i).draw(g);
 		}
 	}
+	void drawRoof(Graphics g) {
+		for(int i = 0; i < terrain.size(); i++) {
+			terrain.get(i).drawRoof(g);
+		}
+	}
+	
 	void drawFoliage(Graphics g) {
 		for(int i = 0; i < terrain.size(); i++) {
 			terrain.get(i).drawFoliage(g);

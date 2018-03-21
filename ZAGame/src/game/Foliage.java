@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -42,7 +43,15 @@ public class Foliage {
 	}
 
 	void draw(Graphics g) {
-		if (!hitbox.intersects(parent.parent.game.s.settlementBox))
-			g.drawImage(img, x, y, img.getWidth() * 5, img.getHeight() * 5, null);
+		ArrayList<Settlement> settlements = parent.parent.game.terrain.settlements;
+		
+		boolean d = true;
+		for(int i = 0; i < settlements.size(); i++) {
+			if(hitbox.intersects(settlements.get(i).settlementBox)) {
+				d = false;
+			}
+		}
+		if(d)
+			g.drawImage(img, x,y,img.getWidth()*5,img.getHeight()*5,null);
 	}
 }

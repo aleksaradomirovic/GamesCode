@@ -26,7 +26,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Random rnd = new Random();
 	String message;
 	int GameTimer = 0;
-	Settlement s = new Settlement(0, 0, 2 * rnd.nextInt(5)+2,3 + 2 * rnd.nextInt(2), this, terrain);
+	// Settlement s = new Settlement(0, 0, 2 * rnd.nextInt(5)+2,3 + 2 * rnd.nextInt(2), this, terrain);
 
 	public Font classic = new Font("Arial", Font.PLAIN, 10);
 	public Font statusMessage = new Font("Terminal", Font.BOLD, 20);
@@ -59,7 +59,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		items.update();
 		status.update();
 		terrain.update();
-		s.update();
 	}
 
 	void drawGame(Graphics g) {
@@ -70,9 +69,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		// Items and entities
 		terrain.draw(g);
-		s.draw(g);
 		items.draw(g);
-		s.drawRoof(g);
+		terrain.drawRoof(g);
 		p1.draw(g);
 		terrain.drawFoliage(g);
 
