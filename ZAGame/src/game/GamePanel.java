@@ -82,6 +82,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			// System.out.println("ds true");
 		}
 		if (generate || GameTimer < 60) {
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, 800, 600);
+			
+			g.setColor(Color.RED);
 			g.setFont(statusMessage);
 			g.drawString("Generating terrain...", 0, 30);
 		}
