@@ -36,13 +36,13 @@ public class Entity {
 		agroBox.setBounds(x_s-50, y_s-50, 125, 125);
 		if(type == zombie) {
 			if(agroBox.intersects(game.p1.hitBox)) {
-				if(x < game.p1.x) {
+				if(x < game.p1.x-400) {
 					x+=3;
-				} else if(x > game.p1.x) {
+				} else if(x > game.p1.x-400) {
 					x-=3;
-				} if(y < game.p1.y) {
+				} if(y < game.p1.y-300) {
 					y+=3;
-				} else if(y > game.p1.y) {
+				} else if(y > game.p1.y-300) {
 					y-=3;
 				}
 			}
