@@ -51,7 +51,7 @@ public class Building extends Object {
 
 	@Override
 	public void draw(Graphics g) {
-		System.out.println("drew house: "+x+","+y);
+		//System.out.println("drew house: "+x+","+y);
 		g.drawImage(floor, x_s, y_s, floor.getWidth() * sizeFactor, floor.getHeight() * sizeFactor, null);
 	}
 	

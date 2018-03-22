@@ -94,7 +94,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		status.draw(g);
 		p1.drawInventory(g, classic);
 		
-		if(true)
+		if(debug)
 			drawDebug(g);
 	}
 
@@ -157,6 +157,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					System.out.println("inventory select-");
 				}
 			}
+		} if(e.getKeyCode() == KeyEvent.VK_F3) {
+			if(debug) {
+				debug = false;
+			} else {
+				debug = true;
+			}
 		}
 	}
 
@@ -192,7 +198,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		// System.out.println("KeyTyped "+e.getKeyChar());
+//		System.out.println("KeyTyped "+e.getKeyChar());
 		if (e.getKeyChar() == 'g') {
 			p1.testInventory();
 			if (!inv) {
@@ -201,13 +207,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			} else {
 				inv = false;
 			}
-		} if(e.getKeyCode() == KeyEvent.VK_EQUALS) {
-			if(debug) {
-				debug = false;
-			} else {
-				debug = true;
-			}
-		}
+		} 
 	}
 
 	public void displayString(String d) {

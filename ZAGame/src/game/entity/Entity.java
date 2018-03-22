@@ -31,11 +31,21 @@ public class Entity {
 	}
 	
 	public void update() {
-		agroBox.setBounds(x-50, y-50, 125, 125);
 		x_s = x - game.p1.x;
 		y_s = y - game.p1.y;
+		agroBox.setBounds(x_s-50, y_s-50, 125, 125);
 		if(type == zombie) {
-			
+			if(agroBox.intersects(game.p1.hitBox)) {
+				if(x < game.p1.x) {
+					x+=3;
+				} else if(x > game.p1.x) {
+					x-=3;
+				} if(y < game.p1.y) {
+					y+=3;
+				} else if(y > game.p1.y) {
+					y-=3;
+				}
+			}
 		}
 	}
 	

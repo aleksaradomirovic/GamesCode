@@ -31,7 +31,7 @@ public class Road extends Object{
 	
 	@Override
 	public void draw(Graphics g) {
-		System.out.println("Drew: "+x+","+y);
+		//System.out.println("Drew: "+x+","+y);
 		g.drawImage(img,x_s,y_s,(int)(img.getWidth()*7.5),img.getHeight()*8,null);
 	}
 }
