@@ -136,7 +136,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("KeyPressed "+e.getKeyChar());
+		// System.out.println("KeyPressed "+e.getKeyChar());
 		if(!debug && !esc) {
 			if (e.getKeyChar() == 'a') {
 				p1.left = true;

@@ -20,19 +20,23 @@ public class ItemManager {
 		panel = p;
 	}
 
-	Item spawnItem(int id) {
+	Item spawnItem(int id, boolean spawnInMap) {
 		int type = i.vars[id - 1][1];
-		// if(type != 0) {
-		if (type == Item.clothes) {
-			items.add(new Clothes(rnd.nextInt(801), rnd.nextInt(801), id, panel, i));
-		} else if (type == Item.food) {
-			items.add(new Food(rnd.nextInt(801), rnd.nextInt(801), id, panel, i));
-		} else if (type == Item.weapon) {
-			items.add(new Weapon(rnd.nextInt(801), rnd.nextInt(801), id, panel, i));
-		}
-		// }
+		Item r = null;
 		
-		return items.get(items.size()-1);
+		if(type == Item.clothes) {
+			r = new Clothes(0,0,id,panel,i);
+		} else if(type == Item.food) {
+			r = new Food(0,0,id,panel,i);
+		} else if(type == Item.weapon) {
+			r = new Weapon(0,0,id,panel,i);
+		}
+		
+		if(spawnInMap && r != null) {
+			items.add(r);
+		} 
+		
+		return r;
 	}
 
 	void spawnItem(int id, int x, int y) {

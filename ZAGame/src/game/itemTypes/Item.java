@@ -25,7 +25,7 @@ public class Item {
 	Rectangle hitBox = new Rectangle();
 	public ArrayList<String> invContextMenu = new ArrayList<String>();
 	utils u = new utils();
-	ItemGeneral info = new ItemGeneral();
+	ItemGeneral info;
 
 	public final static int items = 6;
 	public static int vars[][] = new int[items][10];
@@ -36,6 +36,7 @@ public class Item {
 	public String name;
 
 	public Item(int x, int y, int id, GamePanel p, String name, ItemGeneral i) {
+		info = i;
 		init();
 
 		this.x = x;

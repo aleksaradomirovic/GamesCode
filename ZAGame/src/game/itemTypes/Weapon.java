@@ -39,7 +39,9 @@ public class Weapon extends Item implements MouseListener{
 		}
 		
 		cooldown--;
-		attack = false;
+		if(cooldown < 60) {
+			attack = false;
+		}
 	}
 	
 	@Override

@@ -52,7 +52,7 @@ public class Entity {
 			}
 			
 			if(hitBox.intersects(game.p1.hitBox) && hitTick < 0) {
-				if(game.p1.weapon.attack) {
+				if(game.p1.weapon != null && game.p1.weapon.attack) {
 					parent.zombies.remove(this);
 				} else {
 					game.status.hp -= 5;

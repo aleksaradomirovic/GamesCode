@@ -38,8 +38,8 @@ public class Player {
 	
 	void initPlayer() {
 		//TODO Add any pre-startup commands here (inventory gear, etc)
-		inventory.add(game.items.spawnItem(6));
-		inventory.add(game.items.spawnItem(5));
+		inventory.add(game.items.spawnItem(6,false));
+		inventory.add(game.items.spawnItem(5,false));
 	}
 	
 	void update() {
