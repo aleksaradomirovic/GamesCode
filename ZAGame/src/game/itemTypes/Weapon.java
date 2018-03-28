@@ -6,11 +6,13 @@ import java.awt.event.MouseListener;
 
 import game.GamePanel;
 
-//ID,TYPE,TYPE2,DMG
+//ID,TYPE,TYPE2,DMG,COOLDOWN
 
 public class Weapon extends Item implements MouseListener{
 	
-	boolean equipped = false;
+	public boolean equipped = false, attack = false;
+	
+	int cooldown = 0;
 
 	public Weapon(int x, int y, int id, GamePanel p, ItemGeneral i) {
 		super(x, y, id, p, names[id-1], i);
@@ -26,6 +28,21 @@ public class Weapon extends Item implements MouseListener{
 	}
 	
 	@Override
+	public void update() {
+		hitBox.setBounds(x_s, y_s, img.getWidth() * 2, img.getHeight() * 2);
+		if (hitBox.intersects(game.p1.hitBox)) {
+			game.ds = true;
+			if (game.pickup) {
+				game.p1.inventory.add(this);
+				game.items.items.remove(this);
+			}
+		}
+		
+		cooldown--;
+		attack = false;
+	}
+	
+	@Override
 	public void handleSpecialCommand(String c) {
 		if(c.equals("Equip")) {
 			game.p1.setWeapon(this);
@@ -34,6 +51,8 @@ public class Weapon extends Item implements MouseListener{
 			invContextMenu.remove("Equip");
 			invContextMenu.add("Dequip");
 			invContextMenu.remove("Drop");
+			
+			cooldown = info.vars[id-1][4];
 		}
 		if(c.equals("Dequip")) {
 			equipped = false;
@@ -47,7 +66,6 @@ public class Weapon extends Item implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -65,7 +83,11 @@ public class Weapon extends Item implements MouseListener{
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("Mouseclicked");
+		if(equipped && cooldown < 0) {
+			System.out.println("Weapon used!");
+			attack = true;
+		}
 	}
 
 	@Override

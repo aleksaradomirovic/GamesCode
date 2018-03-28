@@ -17,13 +17,13 @@ public class Chunk {
 	int x,y;
 	int x_s, y_s;
 	Rectangle renderBox = new Rectangle();
-	public Chunk(GamePanel p, int x, int y) {
+	public Chunk(GamePanel p, int x, int y, boolean set) {
 		this.x = x; this.y = y;
 		game = p;
-		initChunkRandom();
+		initChunkRandom(set);
 	}
 	
-	void initChunkRandom() {
+	void initChunkRandom(boolean set) {
 		int biome = new Random().nextInt(2);
 		for(int i = 0; i < chunkSize; i++) {
 			for(int j = 0; j < chunkSize; j++) {
@@ -31,7 +31,7 @@ public class Chunk {
 				// System.out.println(i*chunkSize+j);
 			}
 		}
-		if(new Random().nextInt(100) < settlementChance) {
+		if(new Random().nextInt(100) < settlementChance || set) {
 			chunkSettlement = new Settlement(x,y, 2 * new Random().nextInt(5)+2,3 + 2 * new Random().nextInt(2), game, game.terrain);
 		}
 	}

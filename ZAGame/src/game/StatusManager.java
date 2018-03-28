@@ -8,12 +8,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class StatusManager {
-	public int hp;
+	public int hp, immune;
 	GamePanel game;
 	BufferedImage healthIcon;
 	public StatusManager(GamePanel p) {
 		game = p;
 		hp = 100;
+		immune = 50;
 		try {
 			healthIcon = ImageIO.read(this.getClass().getResourceAsStream("genImages/Health.png"));
 		} catch(IOException e) {
@@ -30,12 +31,22 @@ public class StatusManager {
 		g.setFont(game.classic);
 		g.drawString(""+hp+"", 50, 541);
 		g.drawImage(healthIcon,30,530,15,15,null);
+		
+		g.setColor(Color.GRAY);
+		g.fillRect(25, 475, 200, 25);
+		g.setColor(Color.GREEN);
+		g.fillRect(25, 475, immune*2, 25);
+		g.setColor(Color.WHITE);
+		g.setFont(game.classic);
+		g.drawString(""+immune+"", 50, 491);
 	}
 	void update() {
 		if(hp > 100) {
 			hp = 100;
 		} if(hp <= 0) {
 			game.cap.stop();
+		} if(immune > 100) {
+			immune = 100;
 		}
 	}
 }

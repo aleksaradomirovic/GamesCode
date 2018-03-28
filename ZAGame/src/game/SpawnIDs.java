@@ -10,6 +10,6 @@ public class SpawnIDs {
 	}
 
 	void init() {
-		spawns[0] = new int[] { 1, 2, 3, 4 };
+		spawns[0] = new int[] { 1, 2, 3, 4, 5, 6};
 	}
 }

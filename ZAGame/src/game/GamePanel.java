@@ -47,6 +47,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void startGame() {
+		p1.initPlayer();
 		cap.start();
 //		for (int i = 0; i < 20; i++) {
 //			items.spawnItem(rnd.nextInt(Item.items) + 1);
@@ -55,7 +56,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 //			terrain.spawnObject(1);
 //		}
 		System.out.println("StartGame");
-		terrain.genChunk(0, 0);
+		terrain.genChunk(0, 0, true);
 		
 		playerName = JOptionPane.showInputDialog(this,"Enter your player's name:");
 		
@@ -135,8 +136,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		// System.out.println("KeyPressed "+e.getKeyChar());
-		if(!debug) {
+		System.out.println("KeyPressed "+e.getKeyChar());
+		if(!debug && !esc) {
 			if (e.getKeyChar() == 'a') {
 				p1.left = true;
 			} else if (e.getKeyChar() == 'd') {
@@ -150,42 +151,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if (e.getKeyChar() == 'f') {
 				pickup = true;
 			}
-			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-				if (invContext) {
-					invContext = false;
-				} else if(inv) {
-					inv = false;
-				} else {
-					if(esc)
-						esc = false;
-					else
-						esc = true;
-				}
-				// all screens esc
-			}
+			
 			if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 				p1.speed = 5;
-			}
-
-			if (inv || esc) {
-				if (invContext) {
-					if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-						invContext_Sel++;
-					} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-						invContext_Sel--;
-					}
-					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-						enterContext = true;
-					}
-				} else {
-					if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-						inv_Sel++;
-						System.out.println("inventory select+");
-					} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-						inv_Sel--;
-						System.out.println("inventory select-");
-					}
-				}
 			} if (e.getKeyChar() == 'g') {
 				p1.testInventory();
 				if (!inv) {
@@ -196,6 +164,42 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				}
 			}
 		}
+
+		if (inv || esc) {
+			if (invContext) {
+				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+					invContext_Sel++;
+				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+					invContext_Sel--;
+				}
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					enterContext = true;
+				}
+			} else {
+				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+					inv_Sel++;
+					System.out.println("inventory select+");
+				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+					inv_Sel--;
+					System.out.println("inventory select-");
+				}
+			}
+		}
+		
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			if (invContext) {
+				invContext = false;
+			} else if(inv) {
+				inv = false;
+			} else {
+				if(esc)
+					esc = false;
+				else
+					esc = true;
+			}
+			// all screens esc
+		}
+
 		if(e.getKeyCode() == KeyEvent.VK_F3) {
 			if(debug) {
 				debug = false;
@@ -258,6 +262,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 	
 	void drawEsc(Graphics g) {
+		g.setColor(new Color(255,255,255,200));
 		g.fillRect(0, 0, 800, 600);
 	}
 }

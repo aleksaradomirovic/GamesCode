@@ -35,6 +35,13 @@ public class Player {
 		}
 		game = p;
 	}
+	
+	void initPlayer() {
+		//TODO Add any pre-startup commands here (inventory gear, etc)
+		inventory.add(game.items.spawnItem(6));
+		inventory.add(game.items.spawnItem(5));
+	}
+	
 	void update() {
 		if(up) {
 			y-= speed;
@@ -157,8 +164,11 @@ public class Player {
 		pants = c;
 	}
 	public void setWeapon(Weapon w) {
-		if(weapon != null) 
+		if(weapon != null) {
+			game.frame.frame.removeMouseListener(weapon);
 			weapon.handleCommand("Dequip");
+		}
 		weapon = w;
+		game.frame.frame.addMouseListener(weapon);
 	}
 }

@@ -17,6 +17,8 @@ public class Entity {
 	
 	int type;
 	
+	int hitTick = 0;
+	
 	public static final int zombie = 0, npc = 1;
 	
 	public Entity(int x, int y, Settlement s, boolean feral, GamePanel p) {
@@ -47,6 +49,17 @@ public class Entity {
 				} if(y > game.p1.y+300) {
 					y-=3;
 				}
+			}
+			
+			if(hitBox.intersects(game.p1.hitBox) && hitTick < 0) {
+				if(game.p1.weapon.attack) {
+					parent.zombies.remove(this);
+				} else {
+					game.status.hp -= 5;
+					hitTick = 90;
+				}
+			} else {
+				hitTick--;
 			}
 		}
 	}

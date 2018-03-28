@@ -33,10 +33,10 @@ public class TerrainManager {
 		init();
 	}
 	
-	public void genChunk(int x, int y) {
+	public void genChunk(int x, int y, boolean set) {
 		if(!chunkloc.contains(new Dimension(x,y))) {
 			game.generate = true;
-			terrain.add(new Chunk(game,x,y));
+			terrain.add(new Chunk(game,x,y, set));
 			chunkloc.add(new Dimension(x,y));
 			System.out.println("Items in terrain: "+terrain.size());
 		}
@@ -78,10 +78,10 @@ public class TerrainManager {
 	}
 	
 	void generateAround(Chunk c) {
-		genChunk(c.x+Chunk.width, c.y);
-		genChunk(c.x-Chunk.width, c.y);
+		genChunk(c.x+Chunk.width, c.y, false);
+		genChunk(c.x-Chunk.width, c.y, false);
 		
-		genChunk(c.x, c.y+Chunk.width);
-		genChunk(c.x, c.y-Chunk.width);
+		genChunk(c.x, c.y+Chunk.width, false);
+		genChunk(c.x, c.y-Chunk.width, false);
 	}
 }

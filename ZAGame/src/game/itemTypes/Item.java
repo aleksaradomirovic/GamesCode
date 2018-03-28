@@ -30,7 +30,7 @@ public class Item {
 	public final static int items = 6;
 	public static int vars[][] = new int[items][10];
 
-	public final static String[] names = new String[] { "Green Parka", "Jeans", "Red Shirt", "Soda", "Poison",
+	public final static String[] names = new String[] { "Green Parka", "Jeans", "Red Shirt", "Soda", "Antibiotics",
 			"Pickaxe" };
 
 	public String name;

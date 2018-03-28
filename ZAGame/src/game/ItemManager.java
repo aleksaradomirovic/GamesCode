@@ -20,7 +20,7 @@ public class ItemManager {
 		panel = p;
 	}
 
-	void spawnItem(int id) {
+	Item spawnItem(int id) {
 		int type = i.vars[id - 1][1];
 		// if(type != 0) {
 		if (type == Item.clothes) {
@@ -31,6 +31,8 @@ public class ItemManager {
 			items.add(new Weapon(rnd.nextInt(801), rnd.nextInt(801), id, panel, i));
 		}
 		// }
+		
+		return items.get(items.size()-1);
 	}
 
 	void spawnItem(int id, int x, int y) {
