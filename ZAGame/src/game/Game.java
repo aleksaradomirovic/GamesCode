@@ -27,6 +27,7 @@ public class Game {
 		frame.setPreferredSize(new Dimension(800, 600));
 		frame.setResizable(false);
 		frame.addKeyListener(panel);
+		frame.addKeyListener(panel.cheats);
 		frame.setIconImage(ImageIO.read(this.getClass().getResourceAsStream("genImages/Icon.png")));
 		frame.setTitle("Item Game v" + version);
 

@@ -22,7 +22,7 @@ public class Player {
 	public boolean up, down, left, right;
 	public Weapon weapon;
 	public Clothes shirt, pants;
-	public int speed = 5;
+	public int speed = 3;
 	GamePanel game;
 	utils u = new utils();
 	public Player(GamePanel p) {
@@ -72,29 +72,57 @@ public class Player {
 			g.setColor(Color.BLACK);
 			g.drawRect(100, 50, 600, 500);
 			
+			g.drawString("Shirt:", 400, 100);
+			g.drawString("Pants:", 500, 100);
+			
 			int invY = 100;
+			int equippedSetback = 0;
+			boolean equipList;
 			for(int i = 0; i < inventory.size(); i++) {
+				equipList = false;
 				
-				invY = 100 + i*12;
+				invY = 100 + i*12 - equippedSetback*12;
+				
 				if(i == game.inv_Sel) 
 					g.setColor(Color.RED);
 				else
 					g.setColor(Color.BLACK);
 				
-				g.drawString(inventory.get(i).name, 125, invY);
+				if(inventory.get(i) != shirt && inventory.get(i) != pants) {
+					g.drawString(inventory.get(i).name, 125, invY);
+				} else {
+					equipList = true;
+					if(inventory.get(i) == shirt) {
+						g.drawString(inventory.get(i).name, 400, 112);
+					}
+					if(inventory.get(i) == pants) {
+						g.drawString(inventory.get(i).name, 500, 112);
+					}
+					equippedSetback++;
+				}
 				
 				if(game.invContext && game.inv_Sel == i) {
 					int contY = invY - (inventory.get(i).invContextMenu.size())*10;
+					int contX = 200;
+					
+					if(equipList) {
+						contY = 112 - inventory.get(i).invContextMenu.size()*10;
+						if(inventory.get(i) == shirt) {
+							contX = 450;
+						} if(inventory.get(i) == pants) {
+							contX = 550;
+						}
+					}
 					
 					for(int j = 0; j < inventory.get(i).invContextMenu.size(); j++) {
-						u.drawBorderedRect(200, contY, 100, 16, g);
+						u.drawBorderedRect(contX, contY, 100, 16, g);
 						if(game.invContext_Sel == j) {
 							g.setColor(Color.RED);
 						} else {
 							g.setColor(Color.BLACK);
 						}
 						
-						g.drawString(inventory.get(i).invContextMenu.get(j), 205, contY + 12);
+						g.drawString(inventory.get(i).invContextMenu.get(j), contX + 5, contY + 12);
 						
 						contY+=16;
 					}
@@ -106,6 +134,7 @@ public class Player {
 						game.enterContext = false;
 					}
 				}
+				
 			}
 		}
 	}

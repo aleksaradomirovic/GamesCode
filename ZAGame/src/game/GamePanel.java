@@ -9,13 +9,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import game.itemTypes.Item;
-
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private static final long serialVersionUID = 1L;
+	
+	public String playerName;
 	
 	Timer cap = new Timer(1000 / 60, this);
 	public Player p1 = new Player(this);
@@ -26,17 +27,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Random rnd = new Random();
 	String message;
 	int GameTimer = 0;
+	Cheats cheats = new Cheats(this);
+	boolean write;
 	// Settlement s = new Settlement(0, 0, 2 * rnd.nextInt(5)+2,3 + 2 * rnd.nextInt(2), this, terrain);
 
 	public Font classic = new Font("Arial", Font.PLAIN, 10);
 	public Font statusMessage = new Font("Terminal", Font.BOLD, 20);
 
-	public boolean pickup = false, inv = false, invContext = false, enterContext = false;
+	public boolean pickup = false, inv = false, invContext = false, enterContext = false, esc = false;
 	int inv_Sel, invContext_Sel;
 	public StatusManager status = new StatusManager(this);
 	Game frame;
 	public boolean generate;
 	boolean debug = false;
+	int framerate, currentFrame; long msTimer;
 
 	public GamePanel(Game g) {
 		frame = g;
@@ -52,6 +56,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 //		}
 		System.out.println("StartGame");
 		terrain.genChunk(0, 0);
+		
+		playerName = JOptionPane.showInputDialog(this,"Enter your player's name:");
+		
+		msTimer = System.currentTimeMillis();
 	}
 
 	void updateGame() {
@@ -60,6 +68,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		items.update();
 		status.update();
 		terrain.update();
+		
+		if(System.currentTimeMillis() - msTimer < 1000) {
+			currentFrame++;
+			if(System.currentTimeMillis() - msTimer > 500) {
+				write = true;
+			} else {
+				write = false;
+			}
+		} else {
+			framerate = currentFrame;
+			msTimer = System.currentTimeMillis();
+			currentFrame = 0;
+		}
 	}
 
 	void drawGame(Graphics g) {
@@ -96,6 +117,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		if(debug)
 			drawDebug(g);
+		if(esc)
+			drawEsc(g);
 	}
 
 	@Override
@@ -113,55 +136,72 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		// System.out.println("KeyPressed "+e.getKeyChar());
-		if (e.getKeyChar() == 'a') {
-			p1.left = true;
-		} else if (e.getKeyChar() == 'd') {
-			p1.right = true;
-		}
-		if (e.getKeyChar() == 'w') {
-			p1.up = true;
-		} else if (e.getKeyChar() == 's') {
-			p1.down = true;
-		}
-		if (e.getKeyChar() == 'f') {
-			pickup = true;
-		}
-		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			if (invContext) {
-				invContext = false;
-			} else {
-				inv = false;
+		if(!debug) {
+			if (e.getKeyChar() == 'a') {
+				p1.left = true;
+			} else if (e.getKeyChar() == 'd') {
+				p1.right = true;
 			}
-			// all screens esc
-		}
-		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-			p1.speed = 10;
-		}
+			if (e.getKeyChar() == 'w') {
+				p1.up = true;
+			} else if (e.getKeyChar() == 's') {
+				p1.down = true;
+			}
+			if (e.getKeyChar() == 'f') {
+				pickup = true;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				if (invContext) {
+					invContext = false;
+				} else if(inv) {
+					inv = false;
+				} else {
+					if(esc)
+						esc = false;
+					else
+						esc = true;
+				}
+				// all screens esc
+			}
+			if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+				p1.speed = 5;
+			}
 
-		if (inv) {
-			if (invContext) {
-				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-					invContext_Sel++;
-				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-					invContext_Sel--;
+			if (inv || esc) {
+				if (invContext) {
+					if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+						invContext_Sel++;
+					} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+						invContext_Sel--;
+					}
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+						enterContext = true;
+					}
+				} else {
+					if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+						inv_Sel++;
+						System.out.println("inventory select+");
+					} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+						inv_Sel--;
+						System.out.println("inventory select-");
+					}
 				}
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					enterContext = true;
-				}
-			} else {
-				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-					inv_Sel++;
-					System.out.println("inventory select+");
-				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-					inv_Sel--;
-					System.out.println("inventory select-");
+			} if (e.getKeyChar() == 'g') {
+				p1.testInventory();
+				if (!inv) {
+					inv = true;
+					inv_Sel = 0;
+				} else {
+					inv = false;
 				}
 			}
-		} if(e.getKeyCode() == KeyEvent.VK_F3) {
+		}
+		if(e.getKeyCode() == KeyEvent.VK_F3) {
 			if(debug) {
 				debug = false;
 			} else {
 				debug = true;
+				cheats.newLine(true);
 			}
 		}
 	}
@@ -170,27 +210,29 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		// System.out.println("KeyReleased "+e.getKeyChar());
-		if (e.getKeyChar() == 'a') {
-			p1.left = false;
-		} else if (e.getKeyChar() == 'd') {
-			p1.right = false;
-		}
-		if (e.getKeyChar() == 'w') {
-			p1.up = false;
-		} else if (e.getKeyChar() == 's') {
-			p1.down = false;
-		}
-		if (e.getKeyChar() == 'f') {
-			pickup = false;
-		}
-		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-			p1.speed = 5;
-		}
+		if(!debug) {
+			if (e.getKeyChar() == 'a') {
+				p1.left = false;
+			} else if (e.getKeyChar() == 'd') {
+				p1.right = false;
+			}
+			if (e.getKeyChar() == 'w') {
+				p1.up = false;
+			} else if (e.getKeyChar() == 's') {
+				p1.down = false;
+			}
+			if (e.getKeyChar() == 'f') {
+				pickup = false;
+			}
+			if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+				p1.speed = 3;
+			}
 
-		if (inv) {
-			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				invContext = true;
-				invContext_Sel = 0;
+			if (inv) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					invContext = true;
+					invContext_Sel = 0;
+				}
 			}
 		}
 	}
@@ -199,15 +241,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 //		System.out.println("KeyTyped "+e.getKeyChar());
-		if (e.getKeyChar() == 'g') {
-			p1.testInventory();
-			if (!inv) {
-				inv = true;
-				inv_Sel = 0;
-			} else {
-				inv = false;
-			}
-		} 
+		
 	}
 
 	public void displayString(String d) {
@@ -219,5 +253,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.BLACK);
 		g.setFont(classic);
 		g.drawString("XY player1: ("+p1.x+","+p1.y+")", 10, 25);
+		g.drawString(framerate+"fps", 10, 50);
+		cheats.draw(g,classic);
+	}
+	
+	void drawEsc(Graphics g) {
+		g.fillRect(0, 0, 800, 600);
 	}
 }
