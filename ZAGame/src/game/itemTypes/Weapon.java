@@ -8,7 +8,7 @@ import game.GamePanel;
 
 //ID,TYPE,TYPE2,DMG,COOLDOWN
 
-public class Weapon extends Item implements MouseListener{
+public class Weapon extends Item {
 	
 	public boolean equipped = false, attack = false;
 	
@@ -38,10 +38,10 @@ public class Weapon extends Item implements MouseListener{
 			}
 		}
 		
-		cooldown--;
-		if(cooldown < 60) {
-			attack = false;
-		}
+//		cooldown--;
+//		if(cooldown < 60) {
+//			attack = false;
+//		}
 	}
 	
 	@Override
@@ -63,40 +63,5 @@ public class Weapon extends Item implements MouseListener{
 			invContextMenu.remove("Dequip");
 			invContextMenu.add("Drop");
 		}
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		System.out.println("Mouseclicked");
-		if(equipped && cooldown < 0) {
-			System.out.println("Weapon used!");
-			attack = true;
-		}
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
+	}	
 }

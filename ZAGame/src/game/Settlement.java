@@ -43,6 +43,10 @@ public class Settlement {
 		return new Dimension(setX+x*grid, setY+y*grid);
 	}
 	
+	public void printLocation() {
+		game.cheats.println("Settlement: ("+x+","+y+")");
+	}
+	
 	void init() {
 		int roadY = 0, roadX = 1;
 		

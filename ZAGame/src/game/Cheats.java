@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -9,6 +10,7 @@ import java.awt.event.KeyListener;
 public class Cheats implements KeyListener{
 	String command = "";
 	String[] history = new String[64];
+	Color[] colorHist = new Color[64];
 	GamePanel game;
 	
 	public Cheats(GamePanel p) {
@@ -30,8 +32,12 @@ public class Cheats implements KeyListener{
 		else
 			g.drawString(command, 1, 509);
 		
-		g.setColor(Color.BLACK);
 		for(int i = 0; i < 5; i++) {
+			if(colorHist[i] != null)
+				g.setColor(colorHist[i]);
+			else
+				g.setColor(Color.BLACK);
+			
 			g.drawString(history[i], 1, 509 - (i+1)*12);
 		}
 	}
@@ -46,8 +52,10 @@ public class Cheats implements KeyListener{
 	private void updateHistory(String update) {
 		for(int i = 63; i > 0; i--) {
 			history[i] = history[i-1];
+			colorHist[i] = colorHist[i-1];
 		}
 		history[0] = update;
+		colorHist[0] = Color.BLACK;
 	}
 	
 	void handleCommand(String command) {
@@ -57,6 +65,43 @@ public class Cheats implements KeyListener{
 				space1++;
 			}
 			System.out.println(command.substring(0, space1));
+			
+			if(command.substring(1,space1).equals("Settlements")) {
+				for(int i = 0; i < game.terrain.terrain.size(); i++) {
+					if(game.terrain.terrain.get(i).chunkSettlement != null) {
+						game.terrain.terrain.get(i).chunkSettlement.printLocation();
+					}
+				}
+			} else if(command.substring(1,space1).equals("tp") || command.substring(1,space1).equals("teleport")) {
+				int tX = game.p1.x, tY = game.p1.y;
+				
+				int s2 = space1 + 1, s3;
+				while(s2 < command.length() && command.charAt(s2) != ' ') {
+					s2++;
+				}
+				s3 = s2 + 1;
+				while(s3 < command.length() && command.charAt(s3) != ' ') {
+					s3++;
+				}
+				
+				if(s2 != command.length() && space1 != command.length()) {
+					boolean c = true;
+					try {
+						tX = Integer.parseInt(command.substring(space1 + 1, s2));
+						tY = Integer.parseInt(command.substring(s2 + 1, s3));
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+						c = false;
+						printErrorTrace("Invalid TELEPORT argument");
+					}
+					if(c) {
+						game.p1.x = tX;
+						game.p1.y = tY;
+					}
+				} else {
+					printErrorTrace("Invalid TELEPORT argument");
+				}
+			}
 		} else {
 			System.out.println("not command");
 		}
@@ -84,5 +129,18 @@ public class Cheats implements KeyListener{
 	@Override
 	public void keyTyped(KeyEvent e) {
 		
+	}
+	
+	public void println(String s) {
+		updateHistory(s);
+	}
+	
+	public void printErrorTrace(String s) {
+		for(int i = 63; i > 0; i--) {
+			history[i] = history[i-1];
+			colorHist[i] = colorHist[i-1];
+		}
+		history[0] = s;
+		colorHist[0] = Color.RED;
 	}
 }

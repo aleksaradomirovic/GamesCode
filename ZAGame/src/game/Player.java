@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,12 +16,12 @@ import game.itemTypes.Clothes;
 import game.itemTypes.Item;
 import game.itemTypes.Weapon;
 
-public class Player {
+public class Player implements MouseListener {
 	BufferedImage body, legs, head;
 	public Rectangle hitBox = new Rectangle(389,285,22,30);
 	public ArrayList<Item> inventory = new ArrayList<Item>();
 	public int x = 400,y = 300;
-	public boolean up, down, left, right;
+	public boolean up, down, left, right, attack;
 	public Weapon weapon;
 	public Clothes shirt, pants;
 	public int speed = 3;
@@ -165,10 +167,37 @@ public class Player {
 	}
 	public void setWeapon(Weapon w) {
 		if(weapon != null) {
-			game.frame.frame.removeMouseListener(weapon);
 			weapon.handleCommand("Dequip");
 		}
 		weapon = w;
-		game.frame.frame.addMouseListener(weapon);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		System.out.println("pressed");
+		attack = true;
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		System.out.println("released");
+		attack = false;
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
