@@ -25,10 +25,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	SpawnIDs sID = new SpawnIDs();
 	public boolean ds;
 	Random rnd = new Random();
-	String message;
+	String message, tutorialText;
 	int GameTimer = 0;
 	Cheats cheats = new Cheats(this);
 	boolean write;
+	public int currentTutorial = 0, lastTutorialms;
 	// Settlement s = new Settlement(0, 0, 2 * rnd.nextInt(5)+2,3 + 2 * rnd.nextInt(2), this, terrain);
 
 	public Font classic = new Font("Arial", Font.PLAIN, 10);
@@ -115,6 +116,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		status.draw(g);
 		p1.drawInventory(g, classic);
+		
+		drawTutorial(g);
 		
 		if(debug)
 			drawDebug(g);
@@ -264,5 +267,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	void drawEsc(Graphics g) {
 		g.setColor(new Color(255,255,255,200));
 		g.fillRect(0, 0, 800, 600);
+	}
+	
+	void drawTutorial(Graphics g) {
+		/* TUTORIAL MODES
+		 * 0 = WASD instructions
+		 * 1 = open inv
+		 * 2 = nav inv
+		 */
+		if(currentTutorial == 0) {
+			tutorialText = "use W, A, S, and D to move";
+			if(GameTimer > 1200)
+				currentTutorial++;
+		} else if(currentTutorial == 1) {
+			tutorialText = "G to open inventory, ARROW KEYS, ENTER, and ESC to navigate";
+		}
+		
+		g.setColor(Color.WHITE);
+		g.fillRoundRect(0, 0, 400, 50, 10, 10);
+		g.setColor(Color.BLACK);
+		g.drawRoundRect(0, 0, 400, 50, 10, 10);
+		g.setFont(classic);
+		g.drawString(tutorialText, 10, 30);
 	}
 }
