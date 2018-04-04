@@ -100,8 +100,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.RED);
 		if (ds) {
 			g.setFont(classic);
-			g.drawString("Press [F] to pick up", 425, 300);
+			g.drawString("Press [F] to pick up" + items, 425, 300);
 			// System.out.println("ds true");
+			
+			
+			
 		}
 		if (generate || GameTimer < 60) {
 			g.setColor(Color.BLACK);
