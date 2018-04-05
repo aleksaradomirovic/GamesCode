@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Calendar;
 import java.util.Random;
 
 import javax.swing.JOptionPane;
@@ -17,6 +18,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private static final long serialVersionUID = 1L;
 	
 	public String playerName;
+	
+	int min, hr, day, mo, yr;
 	
 	Timer cap = new Timer(1000 / 60, this);
 	public Player p1 = new Player(this);
@@ -47,7 +50,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		frame = g;
 	}
 
+	@SuppressWarnings("static-access")
 	void startGame() {
+		Calendar start = Calendar.getInstance();
 		p1.initPlayer();
 		cap.start();
 //		for (int i = 0; i < 20; i++) {
@@ -61,11 +66,40 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		playerName = JOptionPane.showInputDialog(this,"Enter your player's name:");
 		
+		min = start.MINUTE;
+		hr = start.HOUR_OF_DAY;
+		day = start.DAY_OF_MONTH;
+		mo = start.MONTH;
+		yr = start.YEAR;
+		
 		msTimer = System.currentTimeMillis();
 	}
 
 	void updateGame() {
 		GameTimer++;
+		
+		//TICK
+		if(GameTimer%60 == 0) {
+			status.tick();
+			min++;
+			if(min > 59) {
+				min = 0;
+				hr++;
+				if(hr > 23) {
+					hr = 0;
+					day++;
+					if(utils.dayPastMonth(day, mo)) {
+						day = 1;
+						mo++;
+						if(mo > 11) {
+							mo = 0;
+							yr++;
+						}
+					}
+				}
+			}
+		}
+	
 		p1.update();
 		items.update();
 		status.update();
@@ -115,6 +149,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		ds = false;
 
 		status.draw(g);
+		drawTools(g);
 		p1.drawInventory(g, classic);
 		
 		drawTutorial(g);
@@ -281,6 +316,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				currentTutorial++;
 		} else if(currentTutorial == 1) {
 			tutorialText = "G to open inventory, ARROW KEYS, ENTER, and ESC to navigate";
+			if(GameTimer > 2400) {
+				currentTutorial++;
+			}
 		}
 		
 		g.setColor(Color.WHITE);
@@ -289,5 +327,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.drawRoundRect(0, 0, 400, 50, 10, 10);
 		g.setFont(classic);
 		g.drawString(tutorialText, 10, 30);
+	}
+	
+	void drawTools(Graphics g) {
+		if(p1.invContains(Player.inv_Watch)) {
+			g.setColor(new Color(255,255,255,100));
+			g.fillRect(700, 556, 100, 15);
+			g.setColor(Color.BLACK);
+			g.setFont(classic);
+			g.drawString(utils.stringTime(min, hr), 703, 568);
+		}
 	}
 }

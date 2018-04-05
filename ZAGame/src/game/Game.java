@@ -11,15 +11,11 @@ public class Game {
 	JFrame frame = new JFrame();
 	GamePanel panel = new GamePanel(this);
 
-	final String version = "0.3.6a", update = "SETTLEMENTS\n"
-			+ " - SETTLEMENTS are a game element that I will work on a lot for a bit,\n and I'll add item spawns, spawn tables, and infected people "
-			+ "(ZOMBIES) too.\n" + " - Fixed road width glitch\n"
-			+ " - Fixed house cluster glitch (by adding null objects for settlement generation,\n"
-			+ " as you know, the entire map is random and infinite\n" + "0.3.1\n"
-			+ " - Inserted Spawn Tables into the buildings\n"
-			+ "0.3.2-0.3.5: Bugfixes\n\n"
-			+ "0.3.6 - ZOMBIES BEING ADDED\n"
-			+ " - added zombie hitbox & agrobox";
+	final String version = "0.4.0a", update = "Food & Water, Immunity Constraints \n"
+			+ " - Food and Water constraints will add more survivalism to the game (my aim)\n"
+			+ " - You spawn with 2-3 days worth of water consumed\n"
+			+ " - You spawn with 3-10 days worth of food consumed\n"
+			+ " - You spawn with 50% immunity, which can be increased with antibiotics\n";
 
 	void setup() throws IOException {
 		frame.add(panel);
@@ -29,13 +25,13 @@ public class Game {
 		frame.addKeyListener(panel);
 		frame.addKeyListener(panel.cheats);
 		frame.addMouseListener(panel.p1);
-		frame.setIconImage(ImageIO.read(this.getClass().getResourceAsStream("genImages/Icon.png")));
-		frame.setTitle("Item Game v" + version);
+		frame.setIconImage(ImageIO.read(this.getClass().getResourceAsStream("genImages/Icon2.png")));
+		frame.setTitle("RETROVIRUS v" + version);
 
 		frame.pack();
 		frame.setVisible(true);
 
-		JOptionPane.showMessageDialog(frame, "ItemGame " + version + " Update: \n\n" + update, "Update Notes",
+		JOptionPane.showMessageDialog(frame, "RETROVIRUS " + version + " Update: \n\n" + update, "Update Notes",
 				JOptionPane.INFORMATION_MESSAGE);
 		panel.startGame();
 	}

@@ -17,6 +17,9 @@ import game.itemTypes.Item;
 import game.itemTypes.Weapon;
 
 public class Player implements MouseListener {
+	//INVENTORY CONTAINERS
+	public static final int inv_Watch = 8, inv_Compass = 9;
+	
 	BufferedImage body, legs, head;
 	public Rectangle hitBox = new Rectangle(389,285,22,30);
 	public ArrayList<Item> inventory = new ArrayList<Item>();
@@ -42,6 +45,7 @@ public class Player implements MouseListener {
 		//TODO Add any pre-startup commands here (inventory gear, etc)
 		inventory.add(game.items.spawnItem(6,false));
 		inventory.add(game.items.spawnItem(5,false));
+		inventory.add(game.items.spawnItem(8,false));
 	}
 	
 	void update() {
@@ -83,6 +87,9 @@ public class Player implements MouseListener {
 			
 			g.drawString("Shirt:", 400, 100);
 			g.drawString("Pants:", 500, 100);
+			
+			g.drawRect(100, 50, 150, 15);
+			g.drawString("Inventory", 103, 61);
 			
 			int invY = 100;
 			int equippedSetback = 0;
@@ -199,5 +206,16 @@ public class Player implements MouseListener {
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public boolean invContains(int callID) {
+		boolean r = false;
+		for(int i = 0; i < inventory.size(); i++) {
+			if(inventory.get(i).id == callID) {
+				r = true;
+			}
+		}
+		
+		return r;
 	}
 }
