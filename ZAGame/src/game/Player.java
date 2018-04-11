@@ -28,7 +28,7 @@ public class Player implements MouseListener {
 	
 	public int[] inventoryAmounts = new int[Item.items];
 	ArrayList<Item> reference = new ArrayList<Item>();
-	public int[] existInInv = new int[Item.items];
+	int[] listToMax = new int[Item.items];
 	
 	public int x = 400,y = 300;
 	public boolean up, down, left, right, attack;
@@ -101,7 +101,7 @@ public class Player implements MouseListener {
 			g.drawString("Inventory", 103, 61);
 			
 			int invY = 100;
-			int invSetback = 0;
+			int invSetback = 0, drawInvSetback = 0;
 //			boolean equipList;
 //			for(int i = 0; i < inventory.size(); i++) {
 //				equipList = false;
@@ -160,48 +160,9 @@ public class Player implements MouseListener {
 //					}
 //				}
 //			}
-			int itemAmount = 0;
-			int existsDef = 0;
 			
 			for(int i = 0; i < Item.items; i++) {
-				itemAmount = 0;
-				
-				for(int j = 0; j < inventory.size(); j++) {
-					if(inventory.get(j).id-1 == i) {
-						itemAmount++;
-					}
-				}
-				inventoryAmounts[i] = itemAmount;
-				
-				if(invContains(i+1)) {
-					existInInv[existsDef] = i;
-					existsDef++;
-				}
-			}
-			
-			for(int i = 0; i < existInInv.length; i++) {
-				int id = existInInv[i];
-				invY = 100 + i*12 - invSetback*12;
-				itemAmount = 0;
-				
-				g.setColor(Color.BLACK);
-				
-				if(inventoryAmounts[i] > 1) {
-					g.drawString(Item.names[id]+" (x"+inventoryAmounts[i]+")", 125, invY);
-				} else if(inventoryAmounts[i] == 1) {
-					g.drawString(Item.names[id], 125, invY);
-				}
-				
-				if(i == game.inv_Sel) {
-					g.drawRect(120, invY - 10, 100, 12);
-					
-					if(game.invContext) {
-						int contY = invY - reference.get(id).invContextMenu.size()*10;
-						
-						for(int j = 0; j < reference.get(id).invContextMenu.size(); j++, contY+=16) {
-							u.drawBorderedRect(200, contY, 100, 16, g);
-						}
-					}
+				for(int j = 0; j < Item.items; j++) {
 				}
 			}
 		}
@@ -297,5 +258,12 @@ public class Player implements MouseListener {
 		for(int i = 0; i < Item.items; i++) {
 			reference.add(game.items.spawnItem(i+1, false));
 		}
+	}
+	
+	void replace(int index, int amount) {
+		for(int i = Item.items - 1; i > index; i++) {
+			listToMax[i] = listToMax[i-1];
+		}
+		listToMax[index] = amount;
 	}
 }

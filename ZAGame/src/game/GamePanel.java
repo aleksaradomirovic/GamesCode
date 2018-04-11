@@ -216,9 +216,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				}
 			} else {
 				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+					//while(!p1.existInInv[inv_Sel])
 					inv_Sel++;
 					System.out.println("inventory select+");
 				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+					//while(!p1.existInInv[inv_Sel])
 					inv_Sel--;
 					System.out.println("inventory select-");
 				}
