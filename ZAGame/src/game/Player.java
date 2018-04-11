@@ -25,7 +25,10 @@ public class Player implements MouseListener {
 	
 	public ArrayList<Item> inventory = new ArrayList<Item>();
 	public ArrayList<Item> equipped = new ArrayList<Item>();
+	
 	public int[] inventoryAmounts = new int[Item.items];
+	ArrayList<Item> reference = new ArrayList<Item>();
+	public int[] existInInv = new int[Item.items];
 	
 	public int x = 400,y = 300;
 	public boolean up, down, left, right, attack;
@@ -43,6 +46,8 @@ public class Player implements MouseListener {
 			e.printStackTrace();
 		}
 		game = p;
+		
+		reloadReference();
 	}
 	
 	void initPlayer() {
@@ -155,37 +160,48 @@ public class Player implements MouseListener {
 //					}
 //				}
 //			}
+			int itemAmount = 0;
+			int existsDef = 0;
 			
 			for(int i = 0; i < Item.items; i++) {
-				invY = 100 + i*12 - invSetback*12;
-				int itemAmount = 0;
-				
-				g.setColor(Color.BLACK);
-				
-				if(i - invSetback == game.inv_Sel) {
-					g.drawRect(120, invY - 10, 100, 12);
-				}
+				itemAmount = 0;
 				
 				for(int j = 0; j < inventory.size(); j++) {
 					if(inventory.get(j).id-1 == i) {
 						itemAmount++;
 					}
 				}
-				
 				inventoryAmounts[i] = itemAmount;
 				
+				if(invContains(i+1)) {
+					existInInv[existsDef] = i;
+					existsDef++;
+				}
+			}
+			
+			for(int i = 0; i < existInInv.length; i++) {
+				int id = existInInv[i];
+				invY = 100 + i*12 - invSetback*12;
+				itemAmount = 0;
+				
+				g.setColor(Color.BLACK);
+				
 				if(inventoryAmounts[i] > 1) {
-					g.drawString(Item.names[i]+" (x"+inventoryAmounts[i]+")", 125, invY);
+					g.drawString(Item.names[id]+" (x"+inventoryAmounts[i]+")", 125, invY);
 				} else if(inventoryAmounts[i] == 1) {
-					g.drawString(Item.names[i], 125, invY);
-				} else {
-					invSetback++;
+					g.drawString(Item.names[id], 125, invY);
 				}
 				
-				int trueSelect = i + invSetback - 1;
-				int inInv = findFirstInInv(i+1);
-				if(game.invContext && game.inv_Sel == i) {
-					int contY = invY + inventory.get(inInv).invContextMenu.size();
+				if(i == game.inv_Sel) {
+					g.drawRect(120, invY - 10, 100, 12);
+					
+					if(game.invContext) {
+						int contY = invY - reference.get(id).invContextMenu.size()*10;
+						
+						for(int j = 0; j < reference.get(id).invContextMenu.size(); j++, contY+=16) {
+							u.drawBorderedRect(200, contY, 100, 16, g);
+						}
+					}
 				}
 			}
 		}
@@ -273,5 +289,13 @@ public class Player implements MouseListener {
 			}
 		}
 		return -1;
+	}
+	
+	void reloadReference() {
+		reference.clear();
+		
+		for(int i = 0; i < Item.items; i++) {
+			reference.add(game.items.spawnItem(i+1, false));
+		}
 	}
 }

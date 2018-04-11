@@ -22,9 +22,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int min, hr, day, mo, yr;
 	
 	Timer cap = new Timer(1000 / 60, this);
-	public Player p1 = new Player(this);
+	
 	public ItemManager items = new ItemManager(this);
 	public TerrainManager terrain = new TerrainManager(this);
+	public Player p1 = new Player(this);
 	SpawnIDs sID = new SpawnIDs();
 	public boolean ds;
 	Random rnd = new Random();
