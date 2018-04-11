@@ -22,7 +22,11 @@ public class Player implements MouseListener {
 	
 	BufferedImage body, legs, head;
 	public Rectangle hitBox = new Rectangle(389,285,22,30);
+	
 	public ArrayList<Item> inventory = new ArrayList<Item>();
+	public ArrayList<Item> equipped = new ArrayList<Item>();
+	public int[] inventoryAmounts = new int[Item.items];
+	
 	public int x = 400,y = 300;
 	public boolean up, down, left, right, attack;
 	public Weapon weapon;
@@ -92,65 +96,97 @@ public class Player implements MouseListener {
 			g.drawString("Inventory", 103, 61);
 			
 			int invY = 100;
-			int equippedSetback = 0;
-			boolean equipList;
-			for(int i = 0; i < inventory.size(); i++) {
-				equipList = false;
+			int invSetback = 0;
+//			boolean equipList;
+//			for(int i = 0; i < inventory.size(); i++) {
+//				equipList = false;
+//				
+//				invY = 100 + i*12 - equippedSetback*12;
+//				
+//				if(i == game.inv_Sel) 
+//					g.setColor(Color.RED);
+//				else
+//					g.setColor(Color.BLACK);
+//				
+//				if(inventory.get(i) != shirt && inventory.get(i) != pants) {
+//					g.drawString(inventory.get(i).name, 125, invY);
+//				} else {
+//					equipList = true;
+//					if(inventory.get(i) == shirt) {
+//						g.drawString(inventory.get(i).name, 400, 112);
+//					}
+//					if(inventory.get(i) == pants) {
+//						g.drawString(inventory.get(i).name, 500, 112);
+//					}
+//					equippedSetback++;
+//				}
+//				
+//				if(game.invContext && game.inv_Sel == i) {
+//					int contY = invY - (inventory.get(i).invContextMenu.size())*10;
+//					int contX = 200;
+//					
+//					if(equipList) {
+//						contY = 112 - inventory.get(i).invContextMenu.size()*10;
+//						if(inventory.get(i) == shirt) {
+//							contX = 450;
+//						} if(inventory.get(i) == pants) {
+//							contX = 550;
+//						}
+//					}
+//					
+//					for(int j = 0; j < inventory.get(i).invContextMenu.size(); j++) {
+//						u.drawBorderedRect(contX, contY, 100, 16, g);
+//						if(game.invContext_Sel == j) {
+//							g.setColor(Color.RED);
+//						} else {
+//							g.setColor(Color.BLACK);
+//						}
+//						
+//						g.drawString(inventory.get(i).invContextMenu.get(j), contX + 5, contY + 12);
+//						
+//						contY+=16;
+//					}
+//					
+//					if(game.enterContext) {
+//						inventory.get(i).handleCommand(inventory.get(i).invContextMenu.get(game.invContext_Sel));
+//						game.invContext = false;
+//						System.out.println("Handled item");
+//						game.enterContext = false;
+//					}
+//				}
+//			}
+			
+			for(int i = 0; i < Item.items; i++) {
+				invY = 100 + i*12 - invSetback*12;
+				int itemAmount = 0;
 				
-				invY = 100 + i*12 - equippedSetback*12;
+				g.setColor(Color.BLACK);
 				
-				if(i == game.inv_Sel) 
-					g.setColor(Color.RED);
-				else
-					g.setColor(Color.BLACK);
+				if(i - invSetback == game.inv_Sel) {
+					g.drawRect(120, invY - 10, 100, 12);
+				}
 				
-				if(inventory.get(i) != shirt && inventory.get(i) != pants) {
-					g.drawString(inventory.get(i).name, 125, invY);
+				for(int j = 0; j < inventory.size(); j++) {
+					if(inventory.get(j).id-1 == i) {
+						itemAmount++;
+					}
+				}
+				
+				inventoryAmounts[i] = itemAmount;
+				
+				if(inventoryAmounts[i] > 1) {
+					g.drawString(Item.names[i]+" (x"+inventoryAmounts[i]+")", 125, invY);
+				} else if(inventoryAmounts[i] == 1) {
+					g.drawString(Item.names[i], 125, invY);
 				} else {
-					equipList = true;
-					if(inventory.get(i) == shirt) {
-						g.drawString(inventory.get(i).name, 400, 112);
-					}
-					if(inventory.get(i) == pants) {
-						g.drawString(inventory.get(i).name, 500, 112);
-					}
-					equippedSetback++;
+					invSetback++;
 				}
 				
+				int trueSelect = i + invSetback - 1;
+				int inInv = findFirstInInv(i+1);
 				if(game.invContext && game.inv_Sel == i) {
-					int contY = invY - (inventory.get(i).invContextMenu.size())*10;
-					int contX = 200;
-					
-					if(equipList) {
-						contY = 112 - inventory.get(i).invContextMenu.size()*10;
-						if(inventory.get(i) == shirt) {
-							contX = 450;
-						} if(inventory.get(i) == pants) {
-							contX = 550;
-						}
-					}
-					
-					for(int j = 0; j < inventory.get(i).invContextMenu.size(); j++) {
-						u.drawBorderedRect(contX, contY, 100, 16, g);
-						if(game.invContext_Sel == j) {
-							g.setColor(Color.RED);
-						} else {
-							g.setColor(Color.BLACK);
-						}
-						
-						g.drawString(inventory.get(i).invContextMenu.get(j), contX + 5, contY + 12);
-						
-						contY+=16;
-					}
-					
-					if(game.enterContext) {
-						inventory.get(i).handleCommand(inventory.get(i).invContextMenu.get(game.invContext_Sel));
-						game.invContext = false;
-						System.out.println("Handled item");
-						game.enterContext = false;
-					}
+					int contY = invY + inventory.get(inInv).invContextMenu.size();
 				}
-				
 			}
 		}
 	}
@@ -163,20 +199,31 @@ public class Player implements MouseListener {
 	}
 	
 	public void setShirt(Clothes c) {
-		if(shirt != null)
+		if(shirt != null) {
 			shirt.handleCommand("Undress");
+			inventory.add(shirt);
+			equipped.remove(shirt);
+		}
 		shirt = c;
+		equipped.add(shirt);
 	}
 	public void setPants(Clothes c) {
-		if(pants != null)
+		if(pants != null) {
 			pants.handleCommand("Undress");
+			inventory.add(pants);
+			equipped.remove(pants);
+		}
 		pants = c;
+		equipped.add(pants);
 	}
 	public void setWeapon(Weapon w) {
 		if(weapon != null) {
 			weapon.handleCommand("Dequip");
+			inventory.add(weapon);
+			equipped.remove(weapon);
 		}
 		weapon = w;
+		equipped.add(weapon);
 	}
 
 	@Override
@@ -217,5 +264,14 @@ public class Player implements MouseListener {
 		}
 		
 		return r;
+	}
+	
+	int findFirstInInv(int id) {
+		for(int i = 0; i < inventory.size(); i++) {
+			if(inventory.get(i).id == id) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }

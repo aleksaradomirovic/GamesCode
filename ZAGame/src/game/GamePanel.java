@@ -64,7 +64,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		System.out.println("StartGame");
 		terrain.genChunk(0, 0, true);
 		
-		playerName = JOptionPane.showInputDialog(this,"Enter your player's name:");
+		playerName = "LOCAL_SERVER_HOST_USER";
 		
 		min = start.MINUTE;
 		hr = start.HOUR_OF_DAY;

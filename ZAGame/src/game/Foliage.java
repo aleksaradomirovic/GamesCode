@@ -51,6 +51,14 @@ public class Foliage {
 				d = false;
 			}
 		}
+		
+		for(int i = 0; i < parent.parent.game.terrain.terrain.size(); i++) {
+			RoadMap selectedRoadMap = parent.parent.game.terrain.terrain.get(i).roads;
+			if(selectedRoadMap != null && hitbox.intersects(selectedRoadMap.hitBox)) {
+				d = false;
+			}
+		}
+		
 		if(d)
 			g.drawImage(img, x,y,img.getWidth()*5,img.getHeight()*5,null);
 	}
