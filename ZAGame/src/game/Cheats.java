@@ -1,7 +1,6 @@
 package game;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -109,15 +108,17 @@ public class Cheats implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		int kc = e.getKeyCode();
-		if(kc == KeyEvent.VK_BACK_SPACE) {
-			command = command.substring(0, command.length()-1);
-		} else if(kc == KeyEvent.VK_ENTER && command.length() > 0) {
-			handleCommand(command);
-			newLine(false);
-		} else {
-			if(!(kc == KeyEvent.VK_F3 || kc == KeyEvent.VK_SHIFT))
-				command+=e.getKeyChar();
+		if(game.debug) {
+			int kc = e.getKeyCode();
+			if(kc == KeyEvent.VK_BACK_SPACE) {
+				command = command.substring(0, command.length()-1);
+			} else if(kc == KeyEvent.VK_ENTER && command.length() > 0) {
+				handleCommand(command);
+				newLine(false);
+			} else {
+				if(!(kc == KeyEvent.VK_F3 || kc == KeyEvent.VK_SHIFT))
+					command+=e.getKeyChar();
+			}
 		}
 	}
 

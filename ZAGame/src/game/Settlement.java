@@ -24,7 +24,7 @@ public class Settlement {
 	
 	public ArrayList<Entity> zombies = new ArrayList<Entity>();
 	
-	public Settlement(int x, int y, int height,int width, GamePanel p, TerrainManager t) {
+	public Settlement(int x, int y, int height, int width, GamePanel p, TerrainManager t) {
 		parent = t;
 		game = p;
 		this.x = x;

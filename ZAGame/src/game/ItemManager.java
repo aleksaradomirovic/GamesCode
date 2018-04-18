@@ -8,6 +8,7 @@ import game.itemTypes.Clothes;
 import game.itemTypes.Food;
 import game.itemTypes.Item;
 import game.itemTypes.ItemGeneral;
+import game.itemTypes.Tool;
 import game.itemTypes.Weapon;
 
 public class ItemManager {
@@ -30,6 +31,8 @@ public class ItemManager {
 			r = new Food(0,0,id,panel,i);
 		} else if(type == Item.weapon) {
 			r = new Weapon(0,0,id,panel,i);
+		} else if(type == Item.tool) {
+			r = new Tool(0,0,id,panel,i);
 		}
 		
 		if(spawnInMap && r != null) {
@@ -48,6 +51,8 @@ public class ItemManager {
 			items.add(new Food(x, y, id, panel, i));
 		} else if (type == Item.weapon) {
 			items.add(new Weapon(x, y, id, panel, i));
+		} else if (type == Item.tool) {
+			items.add(new Tool(x, y, id, panel, i));
 		}
 	}
 

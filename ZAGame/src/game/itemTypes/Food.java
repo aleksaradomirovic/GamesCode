@@ -31,10 +31,13 @@ public class Food extends Item {
 	
 	@Override
 	public void handleSpecialCommand(String c) {
-		if(c.equals("Eat") || c.equals("Drink")) {
-			game.status.hp += vars[id-1][3];
+		if(c.equals("Eat")) {
+			game.status.food += vars[id-1][3];
 			game.p1.inventory.remove(this);
-		} if(c.equals(type) && vars[id-1][2] == med) {
+		} else if(c.equals("Drink")) {
+			game.status.water += vars[id-1][3];
+			game.p1.inventory.remove(this);
+		} else if(c.equals(type) && vars[id-1][2] == med) {
 			game.status.immune += vars[id-1][3];
 			game.p1.inventory.remove(this);
 		}

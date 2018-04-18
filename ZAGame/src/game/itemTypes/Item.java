@@ -16,9 +16,11 @@ public class Item {
 	 * id, type (0 generic, 1 clothes, 2 food), sectype, othervars [3-9]
 	 */
 
-	public static final int clothes = 1, food = 2, weapon = 3;
+	public static final int clothes = 1, food = 2, weapon = 3, tool = 4;
 
-	int x, y, id;
+	int x, y;
+
+	public int id;
 	int x_s, y_s;
 	BufferedImage img;
 	GamePanel game;
@@ -27,11 +29,11 @@ public class Item {
 	utils u = new utils();
 	ItemGeneral info;
 
-	public final static int items = 6;
+	public final static int items = 8;
 	public static int vars[][] = new int[items][10];
 
 	public final static String[] names = new String[] { "Green Parka", "Jeans", "Red Shirt", "Soda", "Antibiotics",
-			"Pickaxe" };
+			"Pickaxe", "Potato", "Watch" };
 
 	public String name;
 

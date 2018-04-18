@@ -1,9 +1,6 @@
 package game.itemTypes;
 
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import game.GamePanel;
 
 //ID,TYPE,TYPE2,DMG,COOLDOWN

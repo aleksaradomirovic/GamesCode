@@ -17,9 +17,19 @@ import game.itemTypes.Item;
 import game.itemTypes.Weapon;
 
 public class Player implements MouseListener {
+	//INVENTORY CONTAINERS
+	public static final int inv_Watch = 8, inv_Compass = 9;
+	
 	BufferedImage body, legs, head;
 	public Rectangle hitBox = new Rectangle(389,285,22,30);
+	
 	public ArrayList<Item> inventory = new ArrayList<Item>();
+	public ArrayList<Item> equipped = new ArrayList<Item>();
+	
+	public int[] inventoryAmounts = new int[Item.items];
+	ArrayList<Item> reference = new ArrayList<Item>();
+	int[] listToMax = new int[Item.items];
+	
 	public int x = 400,y = 300;
 	public boolean up, down, left, right, attack;
 	public Weapon weapon;
@@ -36,12 +46,15 @@ public class Player implements MouseListener {
 			e.printStackTrace();
 		}
 		game = p;
+		
+		reloadReference();
 	}
 	
 	void initPlayer() {
 		//TODO Add any pre-startup commands here (inventory gear, etc)
 		inventory.add(game.items.spawnItem(6,false));
 		inventory.add(game.items.spawnItem(5,false));
+		inventory.add(game.items.spawnItem(8,false));
 	}
 	
 	void update() {
@@ -83,6 +96,9 @@ public class Player implements MouseListener {
 			
 			g.drawString("Shirt:", 400, 100);
 			g.drawString("Pants:", 500, 100);
+			
+			g.drawRect(100, 50, 150, 15);
+			g.drawString("Inventory", 103, 61);
 			
 			int invY = 100;
 			int equippedSetback = 0;
@@ -143,8 +159,28 @@ public class Player implements MouseListener {
 						game.enterContext = false;
 					}
 				}
-				
 			}
+			
+//			for(int i = 0; i < Item.items; i++) {
+//				
+//				inventoryAmounts[i] = 0;
+//				for(int j = 0; j < inventory.size(); j++) {
+//					if(inventory.get(j).id == i+1) {
+//						inventoryAmounts[i]++;
+//					}
+//				}
+//				//System.out.println("Inv amount "+i+": "+inventoryAmounts[i]);
+//				
+//				for(int j = 0; j < Item.items; j++) {
+//					if(inventoryAmounts[i] > inventoryAmounts[j]) {
+//						replace(j, inventoryAmounts[i]);
+//					}
+//				}
+//			}
+//			
+//			for(int i = 0; i < findSize(); i++) {
+//				
+//			}
 		}
 	}
 	
@@ -156,20 +192,31 @@ public class Player implements MouseListener {
 	}
 	
 	public void setShirt(Clothes c) {
-		if(shirt != null)
+		if(shirt != null) {
 			shirt.handleCommand("Undress");
+			inventory.add(shirt);
+			equipped.remove(shirt);
+		}
 		shirt = c;
+		equipped.add(shirt);
 	}
 	public void setPants(Clothes c) {
-		if(pants != null)
+		if(pants != null) {
 			pants.handleCommand("Undress");
+			inventory.add(pants);
+			equipped.remove(pants);
+		}
 		pants = c;
+		equipped.add(pants);
 	}
 	public void setWeapon(Weapon w) {
 		if(weapon != null) {
 			weapon.handleCommand("Dequip");
+			inventory.add(weapon);
+			equipped.remove(weapon);
 		}
 		weapon = w;
+		equipped.add(weapon);
 	}
 
 	@Override
@@ -199,5 +246,48 @@ public class Player implements MouseListener {
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public boolean invContains(int callID) {
+		boolean r = false;
+		for(int i = 0; i < inventory.size(); i++) {
+			if(inventory.get(i).id == callID) {
+				r = true;
+			}
+		}
+		
+		return r;
+	}
+	
+	int findFirstInInv(int id) {
+		for(int i = 0; i < inventory.size(); i++) {
+			if(inventory.get(i).id == id) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	void reloadReference() {
+		reference.clear();
+		
+		for(int i = 0; i < Item.items; i++) {
+			reference.add(game.items.spawnItem(i+1, false));
+		}
+	}
+	
+	void replace(int index, int amount) {
+		for(int i = Item.items - 1; i > index; i++) {
+			listToMax[i] = listToMax[i-1];
+		}
+		listToMax[index] = amount;
+	}
+	
+	int findSize() {
+		int r = 0;
+		while(listToMax[r] != 0) {
+			r++;
+		}
+		return r;
 	}
 }
