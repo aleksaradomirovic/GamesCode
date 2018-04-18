@@ -102,6 +102,7 @@ public class Player implements MouseListener {
 			
 			int invY = 100;
 			int equippedSetback = 0;
+			
 			boolean equipList;
 			for(int i = 0; i < inventory.size(); i++) {
 				equipList = false;
@@ -160,27 +161,6 @@ public class Player implements MouseListener {
 					}
 				}
 			}
-			
-//			for(int i = 0; i < Item.items; i++) {
-//				
-//				inventoryAmounts[i] = 0;
-//				for(int j = 0; j < inventory.size(); j++) {
-//					if(inventory.get(j).id == i+1) {
-//						inventoryAmounts[i]++;
-//					}
-//				}
-//				//System.out.println("Inv amount "+i+": "+inventoryAmounts[i]);
-//				
-//				for(int j = 0; j < Item.items; j++) {
-//					if(inventoryAmounts[i] > inventoryAmounts[j]) {
-//						replace(j, inventoryAmounts[i]);
-//					}
-//				}
-//			}
-//			
-//			for(int i = 0; i < findSize(); i++) {
-//				
-//			}
 		}
 	}
 	
@@ -276,18 +256,24 @@ public class Player implements MouseListener {
 		}
 	}
 	
-	void replace(int index, int amount) {
-		for(int i = Item.items - 1; i > index; i++) {
-			listToMax[i] = listToMax[i-1];
-		}
-		listToMax[index] = amount;
-	}
-	
-	int findSize() {
+	private int getIntListSize(int[] arg0) {
 		int r = 0;
-		while(listToMax[r] != 0) {
+		
+		int i = 0;
+		while(arg0[i] != 0) {
 			r++;
 		}
+		
 		return r;
+	}
+	
+	private static boolean intListContains(int[] arg0, int arg1) {
+		for(int i = 0; i < arg0.length; i++) {
+			if(arg0[i] == arg1) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }
