@@ -22,8 +22,8 @@ public class Foliage {
 	public Foliage(Terrain t, int type, int id) {
 		parent = t;
 
-		xv = new Random().nextInt(200);
-		yv = new Random().nextInt(200);
+		xv = new Random().nextInt(200)+20;
+		yv = new Random().nextInt(200)+20;
 
 		if (type == normal) {
 			name = normalFoliageNames[id];
@@ -52,6 +52,12 @@ public class Foliage {
 			}
 		}
 		
+	
+			
+		
+		
+		
+		
 		for(int i = 0; i < parent.parent.game.terrain.terrain.size(); i++) {
 			RoadMap selectedRoadMap = parent.parent.game.terrain.terrain.get(i).roads;
 			if(selectedRoadMap != null && hitbox.intersects(selectedRoadMap.hitBox)) {
@@ -62,4 +68,5 @@ public class Foliage {
 		if(d)
 			g.drawImage(img, x,y,img.getWidth()*5,img.getHeight()*5,null);
 	}
+
 }

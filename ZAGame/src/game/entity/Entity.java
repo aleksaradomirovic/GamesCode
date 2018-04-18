@@ -56,6 +56,7 @@ public class Entity {
 					parent.zombies.remove(this);
 				} else {
 					game.status.hp -= 5;
+					game.status.immune -= 3;
 					hitTick = 90;
 				}
 			} else {

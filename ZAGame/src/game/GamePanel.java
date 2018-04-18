@@ -47,6 +47,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	boolean debug = false;
 	int framerate, currentFrame; long msTimer;
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public GamePanel(Game g) {
 		frame = g;
 	}
@@ -195,6 +207,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			}
 			
 			if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+				
+				
 				p1.speed = 5;
 			} if (e.getKeyChar() == 'g') {
 				p1.testInventory();
@@ -274,6 +288,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			}
 			if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 				p1.speed = 3;
+				
+				
+				
+				
+				if (e.getKeyChar() == 'w' && e.getKeyChar() == 'a'&&e.getKeyChar() == 's' && e.getKeyChar() == 'd' && p1.speed >= 3) {
+					p1.speed = 0;
+				}
+				
+				
+				
+				
+				
+				
 			}
 
 			if (inv) {
