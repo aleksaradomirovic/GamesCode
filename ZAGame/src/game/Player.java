@@ -101,86 +101,86 @@ public class Player implements MouseListener {
 			g.drawString("Inventory", 103, 61);
 			
 			int invY = 100;
-			int invSetback = 0, drawInvSetback = 0;
-//			boolean equipList;
-//			for(int i = 0; i < inventory.size(); i++) {
-//				equipList = false;
+			int equippedSetback = 0;
+			boolean equipList;
+			for(int i = 0; i < inventory.size(); i++) {
+				equipList = false;
+				
+				invY = 100 + i*12 - equippedSetback*12;
+				
+				if(i == game.inv_Sel) 
+					g.setColor(Color.RED);
+				else
+					g.setColor(Color.BLACK);
+				
+				if(inventory.get(i) != shirt && inventory.get(i) != pants) {
+					g.drawString(inventory.get(i).name, 125, invY);
+				} else {
+					equipList = true;
+					if(inventory.get(i) == shirt) {
+						g.drawString(inventory.get(i).name, 400, 112);
+					}
+					if(inventory.get(i) == pants) {
+						g.drawString(inventory.get(i).name, 500, 112);
+					}
+					equippedSetback++;
+				}
+				
+				if(game.invContext && game.inv_Sel == i) {
+					int contY = invY - (inventory.get(i).invContextMenu.size())*10;
+					int contX = 200;
+					
+					if(equipList) {
+						contY = 112 - inventory.get(i).invContextMenu.size()*10;
+						if(inventory.get(i) == shirt) {
+							contX = 450;
+						} if(inventory.get(i) == pants) {
+							contX = 550;
+						}
+					}
+					
+					for(int j = 0; j < inventory.get(i).invContextMenu.size(); j++) {
+						u.drawBorderedRect(contX, contY, 100, 16, g);
+						if(game.invContext_Sel == j) {
+							g.setColor(Color.RED);
+						} else {
+							g.setColor(Color.BLACK);
+						}
+						
+						g.drawString(inventory.get(i).invContextMenu.get(j), contX + 5, contY + 12);
+						
+						contY+=16;
+					}
+					
+					if(game.enterContext) {
+						inventory.get(i).handleCommand(inventory.get(i).invContextMenu.get(game.invContext_Sel));
+						game.invContext = false;
+						System.out.println("Handled item");
+						game.enterContext = false;
+					}
+				}
+			}
+			
+//			for(int i = 0; i < Item.items; i++) {
 //				
-//				invY = 100 + i*12 - equippedSetback*12;
-//				
-//				if(i == game.inv_Sel) 
-//					g.setColor(Color.RED);
-//				else
-//					g.setColor(Color.BLACK);
-//				
-//				if(inventory.get(i) != shirt && inventory.get(i) != pants) {
-//					g.drawString(inventory.get(i).name, 125, invY);
-//				} else {
-//					equipList = true;
-//					if(inventory.get(i) == shirt) {
-//						g.drawString(inventory.get(i).name, 400, 112);
+//				inventoryAmounts[i] = 0;
+//				for(int j = 0; j < inventory.size(); j++) {
+//					if(inventory.get(j).id == i+1) {
+//						inventoryAmounts[i]++;
 //					}
-//					if(inventory.get(i) == pants) {
-//						g.drawString(inventory.get(i).name, 500, 112);
-//					}
-//					equippedSetback++;
 //				}
+//				//System.out.println("Inv amount "+i+": "+inventoryAmounts[i]);
 //				
-//				if(game.invContext && game.inv_Sel == i) {
-//					int contY = invY - (inventory.get(i).invContextMenu.size())*10;
-//					int contX = 200;
-//					
-//					if(equipList) {
-//						contY = 112 - inventory.get(i).invContextMenu.size()*10;
-//						if(inventory.get(i) == shirt) {
-//							contX = 450;
-//						} if(inventory.get(i) == pants) {
-//							contX = 550;
-//						}
-//					}
-//					
-//					for(int j = 0; j < inventory.get(i).invContextMenu.size(); j++) {
-//						u.drawBorderedRect(contX, contY, 100, 16, g);
-//						if(game.invContext_Sel == j) {
-//							g.setColor(Color.RED);
-//						} else {
-//							g.setColor(Color.BLACK);
-//						}
-//						
-//						g.drawString(inventory.get(i).invContextMenu.get(j), contX + 5, contY + 12);
-//						
-//						contY+=16;
-//					}
-//					
-//					if(game.enterContext) {
-//						inventory.get(i).handleCommand(inventory.get(i).invContextMenu.get(game.invContext_Sel));
-//						game.invContext = false;
-//						System.out.println("Handled item");
-//						game.enterContext = false;
+//				for(int j = 0; j < Item.items; j++) {
+//					if(inventoryAmounts[i] > inventoryAmounts[j]) {
+//						replace(j, inventoryAmounts[i]);
 //					}
 //				}
 //			}
-			
-			for(int i = 0; i < Item.items; i++) {
-				
-				inventoryAmounts[i] = 0;
-				for(int j = 0; j < inventory.size(); j++) {
-					if(inventory.get(j).id == i+1) {
-						inventoryAmounts[i]++;
-					}
-				}
-				//System.out.println("Inv amount "+i+": "+inventoryAmounts[i]);
-				
-				for(int j = 0; j < Item.items; j++) {
-					if(inventoryAmounts[i] > inventoryAmounts[j]) {
-						replace(j, inventoryAmounts[i]);
-					}
-				}
-			}
-			
-			for(int i = 0; i < findSize(); i++) {
-				
-			}
+//			
+//			for(int i = 0; i < findSize(); i++) {
+//				
+//			}
 		}
 	}
 	
