@@ -162,8 +162,24 @@ public class Player implements MouseListener {
 //			}
 			
 			for(int i = 0; i < Item.items; i++) {
-				for(int j = 0; j < Item.items; j++) {
+				
+				inventoryAmounts[i] = 0;
+				for(int j = 0; j < inventory.size(); j++) {
+					if(inventory.get(j).id == i+1) {
+						inventoryAmounts[i]++;
+					}
 				}
+				//System.out.println("Inv amount "+i+": "+inventoryAmounts[i]);
+				
+				for(int j = 0; j < Item.items; j++) {
+					if(inventoryAmounts[i] > inventoryAmounts[j]) {
+						replace(j, inventoryAmounts[i]);
+					}
+				}
+			}
+			
+			for(int i = 0; i < findSize(); i++) {
+				
 			}
 		}
 	}
@@ -265,5 +281,13 @@ public class Player implements MouseListener {
 			listToMax[i] = listToMax[i-1];
 		}
 		listToMax[index] = amount;
+	}
+	
+	int findSize() {
+		int r = 0;
+		while(listToMax[r] != 0) {
+			r++;
+		}
+		return r;
 	}
 }
