@@ -34,7 +34,7 @@ public class StatusManager {
 	}
 	
 	void draw(Graphics g) {
-		g.setFont(game.classic);
+		g.setFont(GamePanel.classic);
 		
 		//HP
 		g.setColor(Color.GRAY);
@@ -91,7 +91,7 @@ public class StatusManager {
 		water--;
 		
 		if(food > 5000 && water > 1500) {
-			hp++;
+			//hp++;
 		}
 	}
 	

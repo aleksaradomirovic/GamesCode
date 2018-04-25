@@ -10,7 +10,7 @@ public class Food extends Item {
 	
 	String type;
 	
-	public static final int food = 0, water = 1, med = 2, other = 3;
+	public static final int food = 0, water = 1, med = 2, heal = 3;
 	
 	public Food(int x, int y, int id, GamePanel p, ItemGeneral i) {
 		super(x, y, id, p, names[id-1], i);
@@ -33,13 +33,16 @@ public class Food extends Item {
 	public void handleSpecialCommand(String c) {
 		if(c.equals("Eat")) {
 			game.status.food += vars[id-1][3];
-			game.p1.inventory.remove(this);
+			game.p1.inventory.remove(id-1);
 		} else if(c.equals("Drink")) {
 			game.status.water += vars[id-1][3];
-			game.p1.inventory.remove(this);
+			game.p1.inventory.remove(id-1);
 		} else if(c.equals(type) && vars[id-1][2] == med) {
 			game.status.immune += vars[id-1][3];
-			game.p1.inventory.remove(this);
+			game.p1.inventory.remove(id-1);
+		} else if(c.equals(type) && vars[id-1][2] == heal) {
+			game.status.hp += vars[id-1][3];
+			game.p1.inventory.remove(id-1);
 		}
 	}
 }

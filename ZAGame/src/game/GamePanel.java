@@ -10,9 +10,10 @@ import java.awt.event.KeyListener;
 import java.util.Calendar;
 import java.util.Random;
 
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import game.itemTypes.Item;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private static final long serialVersionUID = 1L;
@@ -25,6 +26,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	
 	public ItemManager items = new ItemManager(this);
 	public TerrainManager terrain = new TerrainManager(this);
+	public int inv_Sel = 0, invContext_Sel = 0;
 	public Player p1 = new Player(this);
 	SpawnIDs sID = new SpawnIDs();
 	public boolean ds;
@@ -36,11 +38,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public int currentTutorial = 0, lastTutorialms;
 	// Settlement s = new Settlement(0, 0, 2 * rnd.nextInt(5)+2,3 + 2 * rnd.nextInt(2), this, terrain);
 
-	public Font classic = new Font("Arial", Font.PLAIN, 10);
-	public Font statusMessage = new Font("Terminal", Font.BOLD, 20);
+	public static Font classic = new Font("Arial", Font.PLAIN, 10);
+	public static Font statusMessage = new Font("Terminal", Font.BOLD, 20);
 
 	public boolean pickup = false, inv = false, invContext = false, enterContext = false, esc = false;
-	int inv_Sel, invContext_Sel;
 	public StatusManager status = new StatusManager(this);
 	Game frame;
 	public boolean generate;
@@ -148,10 +149,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			g.drawString("Generating terrain...", 0, 30);
 		}
 		ds = false;
-
+		
+		System.out.println("Value of inv_Sel: "+inv_Sel);
 		status.draw(g);
 		drawTools(g);
-		p1.drawInventory(g, classic);
+		//p1.drawInventory(g, classic);
+		
+		if(inv)
+			p1.inventory.draw(g);
 		
 		drawTutorial(g);
 		
@@ -216,12 +221,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				}
 			} else {
 				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-					//while(!p1.existInInv[inv_Sel])
-					inv_Sel++;
+					while(!p1.inventory.has(inv_Sel) && inv_Sel < p1.inventory.size()) {
+						inv_Sel++;
+					}
 					System.out.println("inventory select+");
 				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-					//while(!p1.existInInv[inv_Sel])
-					inv_Sel--;
+					while(!p1.inventory.has(inv_Sel) && inv_Sel >= 0) {
+						inv_Sel--;
+					}
 					System.out.println("inventory select-");
 				}
 			}
@@ -333,7 +340,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 	
 	void drawTools(Graphics g) {
-		if(p1.invContains(Player.inv_Watch)) {
+		if(p1.inventory.inv[7] > 0) {
 			g.setColor(new Color(255,255,255,100));
 			g.fillRect(700, 556, 100, 15);
 			g.setColor(Color.BLACK);

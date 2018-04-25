@@ -29,11 +29,11 @@ public class Item {
 	utils u = new utils();
 	ItemGeneral info;
 
-	public final static int items = 8;
+	public final static int items = 9;
 	public static int vars[][] = new int[items][10];
 
 	public final static String[] names = new String[] { "Green Parka", "Jeans", "Red Shirt", "Soda", "Antibiotics",
-			"Pickaxe", "Potato", "Watch" };
+			"Pickaxe", "Potato", "Watch", "Rag" };
 
 	public String name;
 
@@ -61,7 +61,7 @@ public class Item {
 		if (hitBox.intersects(game.p1.hitBox)) {
 			game.ds = true;
 			if (game.pickup) {
-				game.p1.inventory.add(this);
+				game.p1.inventory.add(id-1);
 				game.items.items.remove(this);
 			}
 		}
@@ -83,7 +83,7 @@ public class Item {
 			y = game.p1.y + 300;
 
 			game.items.items.add(this);
-			game.p1.inventory.remove(this);
+			game.p1.inventory.remove(id-1);
 		} else {
 			handleSpecialCommand(command);
 		}

@@ -30,7 +30,7 @@ public class Weapon extends Item {
 		if (hitBox.intersects(game.p1.hitBox)) {
 			game.ds = true;
 			if (game.pickup) {
-				game.p1.inventory.add(this);
+				game.p1.inventory.add(id-1);
 				game.items.items.remove(this);
 			}
 		}

@@ -1,15 +1,11 @@
 package game;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 
 import game.itemTypes.Clothes;
@@ -19,23 +15,18 @@ import game.itemTypes.Weapon;
 public class Player implements MouseListener {
 	//INVENTORY CONTAINERS
 	public static final int inv_Watch = 8, inv_Compass = 9;
+	GamePanel game;
 	
 	BufferedImage body, legs, head;
 	public Rectangle hitBox = new Rectangle(389,285,22,30);
 	
-	public ArrayList<Item> inventory = new ArrayList<Item>();
-	public ArrayList<Item> equipped = new ArrayList<Item>();
-	
-	public int[] inventoryAmounts = new int[Item.items];
-	ArrayList<Item> reference = new ArrayList<Item>();
-	int[] listToMax = new int[Item.items];
+	public Inventory inventory = new Inventory(game);
 	
 	public int x = 400,y = 300;
 	public boolean up, down, left, right, attack;
 	public Weapon weapon;
 	public Clothes shirt, pants;
 	public int speed = 3;
-	GamePanel game;
 	utils u = new utils();
 	public Player(GamePanel p) {
 		try {
@@ -46,15 +37,13 @@ public class Player implements MouseListener {
 			e.printStackTrace();
 		}
 		game = p;
-		
-		reloadReference();
 	}
 	
 	void initPlayer() {
 		//TODO Add any pre-startup commands here (inventory gear, etc)
-		inventory.add(game.items.spawnItem(6,false));
-		inventory.add(game.items.spawnItem(5,false));
-		inventory.add(game.items.spawnItem(8,false));
+		inventory.add(5);
+		inventory.add(4);
+		inventory.add(7);
 	}
 	
 	void update() {
@@ -81,122 +70,117 @@ public class Player implements MouseListener {
 			g.drawImage(pants.worn,393,304,14,12,null);
 		}
 		
-		for(int i = 0; i < inventory.size(); i++) {
-			inventory.get(i).drawIfEquipped(g);
-		}
+		//TODO must do drawIfEquipped
+//		for(int i = 0; i < inventory.size(); i++) {
+//			inventory.get(i).drawIfEquipped(g);
+//		}
 	}
 	
-	void drawInventory(Graphics g, Font f) {
-		if(game.inv) {
-			g.setColor(Color.GRAY);
-			g.setFont(f);
-			g.fillRect(100, 50, 600, 500);
-			g.setColor(Color.BLACK);
-			g.drawRect(100, 50, 600, 500);
-			
-			g.drawString("Shirt:", 400, 100);
-			g.drawString("Pants:", 500, 100);
-			
-			g.drawRect(100, 50, 150, 15);
-			g.drawString("Inventory", 103, 61);
-			
-			int invY = 100;
-			int equippedSetback = 0;
-			
-			boolean equipList;
-			for(int i = 0; i < inventory.size(); i++) {
-				equipList = false;
-				
-				invY = 100 + i*12 - equippedSetback*12;
-				
-				if(i == game.inv_Sel) 
-					g.setColor(Color.RED);
-				else
-					g.setColor(Color.BLACK);
-				
-				if(inventory.get(i) != shirt && inventory.get(i) != pants) {
-					g.drawString(inventory.get(i).name, 125, invY);
-				} else {
-					equipList = true;
-					if(inventory.get(i) == shirt) {
-						g.drawString(inventory.get(i).name, 400, 112);
-					}
-					if(inventory.get(i) == pants) {
-						g.drawString(inventory.get(i).name, 500, 112);
-					}
-					equippedSetback++;
-				}
-				
-				if(game.invContext && game.inv_Sel == i) {
-					int contY = invY - (inventory.get(i).invContextMenu.size())*10;
-					int contX = 200;
-					
-					if(equipList) {
-						contY = 112 - inventory.get(i).invContextMenu.size()*10;
-						if(inventory.get(i) == shirt) {
-							contX = 450;
-						} if(inventory.get(i) == pants) {
-							contX = 550;
-						}
-					}
-					
-					for(int j = 0; j < inventory.get(i).invContextMenu.size(); j++) {
-						u.drawBorderedRect(contX, contY, 100, 16, g);
-						if(game.invContext_Sel == j) {
-							g.setColor(Color.RED);
-						} else {
-							g.setColor(Color.BLACK);
-						}
-						
-						g.drawString(inventory.get(i).invContextMenu.get(j), contX + 5, contY + 12);
-						
-						contY+=16;
-					}
-					
-					if(game.enterContext) {
-						inventory.get(i).handleCommand(inventory.get(i).invContextMenu.get(game.invContext_Sel));
-						game.invContext = false;
-						System.out.println("Handled item");
-						game.enterContext = false;
-					}
-				}
-			}
-		}
-	}
+//	void drawInventory(Graphics g, Font f) {
+//		if(game.inv) {
+//			g.setColor(Color.GRAY);
+//			g.setFont(f);
+//			g.fillRect(100, 50, 600, 500);
+//			g.setColor(Color.BLACK);
+//			g.drawRect(100, 50, 600, 500);
+//			
+//			g.drawString("Shirt:", 400, 100);
+//			g.drawString("Pants:", 500, 100);
+//			
+//			g.drawRect(100, 50, 150, 15);
+//			g.drawString("Inventory", 103, 61);
+//			
+//			int invY = 100;
+//			int equippedSetback = 0;
+//			
+//			boolean equipList;
+//			for(int i = 0; i < inventory.size(); i++) {
+//				equipList = false;
+//				
+//				invY = 100 + i*12 - equippedSetback*12;
+//				
+//				if(i == game.inv_Sel) 
+//					g.setColor(Color.RED);
+//				else
+//					g.setColor(Color.BLACK);
+//				
+//				if(inventory.get(i) != shirt && inventory.get(i) != pants) {
+//					g.drawString(inventory.get(i).name, 125, invY);
+//				} else {
+//					equipList = true;
+//					if(inventory.get(i) == shirt) {
+//						g.drawString(inventory.get(i).name, 400, 112);
+//					}
+//					if(inventory.get(i) == pants) {
+//						g.drawString(inventory.get(i).name, 500, 112);
+//					}
+//					equippedSetback++;
+//				}
+//				
+//				if(game.invContext && game.inv_Sel == i) {
+//					int contY = invY - (inventory.get(i).invContextMenu.size())*10;
+//					int contX = 200;
+//					
+//					if(equipList) {
+//						contY = 112 - inventory.get(i).invContextMenu.size()*10;
+//						if(inventory.get(i) == shirt) {
+//							contX = 450;
+//						} if(inventory.get(i) == pants) {
+//							contX = 550;
+//						}
+//					}
+//					
+//					for(int j = 0; j < inventory.get(i).invContextMenu.size(); j++) {
+//						u.drawBorderedRect(contX, contY, 100, 16, g);
+//						if(game.invContext_Sel == j) {
+//							g.setColor(Color.RED);
+//						} else {
+//							g.setColor(Color.BLACK);
+//						}
+//						
+//						g.drawString(inventory.get(i).invContextMenu.get(j), contX + 5, contY + 12);
+//						
+//						contY+=16;
+//					}
+//					
+//					if(game.enterContext) {
+//						inventory.get(i).handleCommand(inventory.get(i).invContextMenu.get(game.invContext_Sel));
+//						game.invContext = false;
+//						System.out.println("Handled item");
+//						game.enterContext = false;
+//					}
+//				}
+//			}
+//		}
+//	}
 	
 	public void testInventory() {
 		System.out.println("Inventory Test Handler Trace:");
-		for(int i = 0; i < inventory.size(); i++) {
-			System.out.println("Item: "+inventory.get(i).name);
+		for(int i = 0; i < inventory.inv.length; i++) {
+			System.out.println("Item: "+Item.names[i]);
 		}
 	}
 	
 	public void setShirt(Clothes c) {
 		if(shirt != null) {
 			shirt.handleCommand("Undress");
-			inventory.add(shirt);
-			equipped.remove(shirt);
+			inventory.add(shirt.id-1);
 		}
 		shirt = c;
-		equipped.add(shirt);
 	}
 	public void setPants(Clothes c) {
 		if(pants != null) {
 			pants.handleCommand("Undress");
-			inventory.add(pants);
-			equipped.remove(pants);
+			inventory.add(pants.id-1);
 		}
 		pants = c;
-		equipped.add(pants);
 	}
 	public void setWeapon(Weapon w) {
 		if(weapon != null) {
 			weapon.handleCommand("Dequip");
-			inventory.add(weapon);
-			equipped.remove(weapon);
+			inventory.add(weapon.id-1);
 		}
 		weapon = w;
-		equipped.add(weapon);
 	}
 
 	@Override
@@ -226,54 +210,5 @@ public class Player implements MouseListener {
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	public boolean invContains(int callID) {
-		boolean r = false;
-		for(int i = 0; i < inventory.size(); i++) {
-			if(inventory.get(i).id == callID) {
-				r = true;
-			}
-		}
-		
-		return r;
-	}
-	
-	int findFirstInInv(int id) {
-		for(int i = 0; i < inventory.size(); i++) {
-			if(inventory.get(i).id == id) {
-				return i;
-			}
-		}
-		return -1;
-	}
-	
-	void reloadReference() {
-		reference.clear();
-		
-		for(int i = 0; i < Item.items; i++) {
-			reference.add(game.items.spawnItem(i+1, false));
-		}
-	}
-	
-	private int getIntListSize(int[] arg0) {
-		int r = 0;
-		
-		int i = 0;
-		while(arg0[i] != 0) {
-			r++;
-		}
-		
-		return r;
-	}
-	
-	private static boolean intListContains(int[] arg0, int arg1) {
-		for(int i = 0; i < arg0.length; i++) {
-			if(arg0[i] == arg1) {
-				return true;
-			}
-		}
-		
-		return false;
 	}
 }

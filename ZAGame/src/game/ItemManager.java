@@ -21,7 +21,7 @@ public class ItemManager {
 		panel = p;
 	}
 
-	Item spawnItem(int id, boolean spawnInMap) {
+	public Item spawnItem(int id, boolean spawnInMap) {
 		int type = i.vars[id - 1][1];
 		Item r = null;
 		

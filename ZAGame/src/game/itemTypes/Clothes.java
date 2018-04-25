@@ -17,6 +17,7 @@ public class Clothes extends Item {
 	public Clothes(int x, int y, int id, GamePanel p, ItemGeneral i) {
 		super(x, y, id, p, names[id-1], i);
 		invContextMenu.add("Wear");
+		invContextMenu.add("Rip");
 		addGeneralContext();
 		
 		try {
@@ -46,12 +47,18 @@ public class Clothes extends Item {
 				game.p1.shirt = null;
 			} else if(vars[id-1][2] == pants) {
 				game.p1.pants = null;
-			} else {
-				System.out.println("Bad 'wear' call, undefined type");
-			}
+			} //else {
+				//System.out.println("Bad 'wear' call, undefined type");
+			//}
 			invContextMenu.remove("Undress");
 			invContextMenu.add("Wear");
 			invContextMenu.add("Drop");
+		}
+		if(command.equals("Rip")) {
+			handleCommand("Undress");
+			
+			game.p1.inventory.add(8);
+			game.p1.inventory.remove(id-1);
 		}
 	}
 }
