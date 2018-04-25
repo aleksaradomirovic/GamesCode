@@ -150,7 +150,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 		ds = false;
 		
-		System.out.println("Value of inv_Sel: "+inv_Sel);
+		//System.out.println("Value of inv_Sel: "+inv_Sel);
 		status.draw(g);
 		drawTools(g);
 		//p1.drawInventory(g, classic);
@@ -202,7 +202,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				p1.testInventory();
 				if (!inv) {
 					inv = true;
-					inv_Sel = 0;
+					inv_Sel = p1.inventory.lowestValue();
 				} else {
 					inv = false;
 				}
@@ -217,19 +217,32 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					invContext_Sel--;
 				}
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					enterContext = true;
+					p1.inventory.enterHandler();
 				}
 			} else {
 				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-					while(!p1.inventory.has(inv_Sel) && inv_Sel < p1.inventory.size()) {
+					inv_Sel++;
+					while(!p1.inventory.has(inv_Sel) && inv_Sel < p1.inventory.highestValue()) {
 						inv_Sel++;
 					}
+					if(inv_Sel >= p1.inventory.size()) {
+						inv_Sel = p1.inventory.size()-1;
+					}
+					
 					System.out.println("inventory select+");
 				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-					while(!p1.inventory.has(inv_Sel) && inv_Sel >= 0) {
+					inv_Sel--;
+					while(!p1.inventory.has(inv_Sel) && inv_Sel >= p1.inventory.lowestValue()) {
 						inv_Sel--;
 					}
+					if(inv_Sel <= 0) {
+						inv_Sel = 0;
+					}
+					
 					System.out.println("inventory select-");
+				} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					invContext = true;
+					invContext_Sel = 0;
 				}
 			}
 		}
@@ -281,10 +294,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			}
 
 			if (inv) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					invContext = true;
-					invContext_Sel = 0;
-				}
+				
 			}
 		}
 	}

@@ -11,11 +11,15 @@ public class Game {
 	JFrame frame = new JFrame();
 	GamePanel panel = new GamePanel(this);
 
-	final String version = "0.4.0a", update = "Food & Water, Immunity Constraints \n"
+	final String version = "0.4.3a", update = "Food & Water, Immunity Constraints \n"
 			+ " - Food and Water constraints will add more survivalism to the game (my aim)\n"
 			+ " - You spawn with 2-3 days worth of water consumed\n"
 			+ " - You spawn with 3-10 days worth of food consumed\n"
-			+ " - You spawn with 50% immunity, which can be increased with antibiotics\n";
+			+ " - You spawn with 50% immunity, which can be increased with antibiotics\n"
+			+ " 0.4.1-3 : Redid Inventory\n"
+			+ " - Items now stack (infinitely, I realize i'm stupid)\n"
+			+ " - A few glitches with equipped items and clothes remain, will fix\n"
+			+ " - Intend to start NPCs after polishing inventory and zombies";
 
 	void setup() throws IOException {
 		frame.add(panel);

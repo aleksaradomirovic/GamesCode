@@ -20,7 +20,7 @@ public class Player implements MouseListener {
 	BufferedImage body, legs, head;
 	public Rectangle hitBox = new Rectangle(389,285,22,30);
 	
-	public Inventory inventory = new Inventory(game);
+	public Inventory inventory;
 	
 	public int x = 400,y = 300;
 	public boolean up, down, left, right, attack;
@@ -37,6 +37,8 @@ public class Player implements MouseListener {
 			e.printStackTrace();
 		}
 		game = p;
+		
+		inventory = new Inventory(game);
 	}
 	
 	void initPlayer() {
