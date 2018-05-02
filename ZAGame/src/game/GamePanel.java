@@ -13,7 +13,7 @@ import java.util.Random;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import game.itemTypes.Item;
+import game.objects.Note;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	private static final long serialVersionUID = 1L;
@@ -29,11 +29,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public int inv_Sel = 0, invContext_Sel = 0;
 	public Player p1 = new Player(this);
 	SpawnIDs sID = new SpawnIDs();
-	public boolean ds;
+	public boolean ds, interact, interacting = false;
 	Random rnd = new Random();
 	String message, tutorialText;
 	int GameTimer = 0;
 	Cheats cheats = new Cheats(this);
+	public Note interactable;
 	boolean write;
 	public int currentTutorial = 0, lastTutorialms;
 	// Settlement s = new Settlement(0, 0, 2 * rnd.nextInt(5)+2,3 + 2 * rnd.nextInt(2), this, terrain);
@@ -140,6 +141,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			g.drawString("Press [F] to pick up", 425, 300);
 			// System.out.println("ds true");
 		}
+		if(interact) {
+			g.setFont(classic);
+			g.drawString("Press [E] to interact", 425, 312);
+		}
+		
 		if (generate || GameTimer < 60) {
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, 800, 600);
@@ -149,6 +155,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			g.drawString("Generating terrain...", 0, 30);
 		}
 		ds = false;
+		interact = false;
 		
 		//System.out.println("Value of inv_Sel: "+inv_Sel);
 		status.draw(g);
@@ -157,6 +164,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		if(inv)
 			p1.inventory.draw(g);
+		
+		if(interacting && interactable != null) {
+			interactable.drawRoof(g);
+		}
 		
 		drawTutorial(g);
 		
@@ -207,6 +218,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					inv = false;
 				}
 			}
+			
+			if(e.getKeyChar() == 'e') {
+				if(!interacting) {
+					interacting = true;
+				} else {
+					interacting = false;
+				}
+			}
 		}
 
 		if (inv || esc) {
@@ -243,6 +262,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					invContext = true;
 					invContext_Sel = 0;
+				} else if(e.getKeyChar() == 'q') {
+					p1.inventory.nextMode();
+					System.out.println("newmode");
 				}
 			}
 		}

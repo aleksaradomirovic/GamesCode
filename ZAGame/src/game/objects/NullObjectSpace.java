@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 import game.GamePanel;
 
-public class NullObjectSpace extends Object {
+public class NullObjectSpace extends GameObject {
 
 	public NullObjectSpace(GamePanel p) {
 		super(0, 0, 0, p, null);

@@ -19,7 +19,7 @@ public class Entity {
 	
 	int hitTick = 0;
 	
-	public static final int zombie = 0, npc = 1;
+	public static final int zombie = 0;
 	
 	public Entity(int x, int y, Settlement s, boolean feral, GamePanel p) {
 		parent = s;

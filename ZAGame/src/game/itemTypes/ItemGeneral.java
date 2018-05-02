@@ -17,5 +17,6 @@ public class ItemGeneral {
 		vars[6] = new int[] {6,Item.food,Food.food,700};
 		vars[7] = new int[] {7,Item.tool,0};
 		vars[8] = new int[] {8,Item.food,Food.heal,10};
+		vars[9] = new int[] {9,Item.tool,0};
 	}
 }

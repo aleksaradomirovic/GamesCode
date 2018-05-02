@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 import game.GamePanel;
 import game.TerrainManager;
 
-public class Object {
+public class GameObject {
 	int[] vars;
 	int id;
 	boolean collision;
@@ -22,7 +22,7 @@ public class Object {
 	Rectangle hitBox = new Rectangle();
 	public int sizeFactor = 2;
 
-	public Object(int x, int y, int id, GamePanel p, TerrainManager t) {
+	public GameObject(int x, int y, int id, GamePanel p, TerrainManager t) {
 		game = p;
 		if (t != null) {
 			name = t.names[id];
@@ -52,7 +52,7 @@ public class Object {
 
 	public void update() {
 		// if(collision) {
-		// hitBox.setBounds(x_s, y_s, img.getWidth()*2, img.getHeight()*2);
+		// hitBox.setBounds(x_s, y_s, img.getWidth()*sizeFactor, img.getHeight()*sizeFactor);
 		//
 		// if(hitBox.intersects(game.p1.hitBox)) {
 		// if(game.p1.up) {

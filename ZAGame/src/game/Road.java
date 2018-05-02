@@ -4,9 +4,9 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import game.objects.Object;
+import game.objects.GameObject;
 
-public class Road extends Object{
+public class Road extends GameObject{
 	BufferedImage img;
 	int x_s, y_s;
 	int x,y;

@@ -16,6 +16,7 @@ public class Weapon extends Item {
 		
 		addGeneralContext();
 		invContextMenu.add("Equip");
+		invContextMenu.add("Scrap");
 	}
 	
 	@Override
@@ -59,6 +60,10 @@ public class Weapon extends Item {
 			invContextMenu.add("Equip");
 			invContextMenu.remove("Dequip");
 			invContextMenu.add("Drop");
+		}
+		if(c.equals("Scrap")) {
+			game.p1.inventory.add(9);
+			game.p1.inventory.remove(id-1);
 		}
 	}	
 }

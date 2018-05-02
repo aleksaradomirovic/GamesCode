@@ -29,11 +29,11 @@ public class Item {
 	utils u = new utils();
 	ItemGeneral info;
 
-	public final static int items = 9;
+	public final static int items = 10;
 	public static int vars[][] = new int[items][10];
 
 	public final static String[] names = new String[] { "Green Parka", "Jeans", "Red Shirt", "Soda", "Antibiotics",
-			"Pickaxe", "Potato", "Watch", "Rag" };
+			"Pickaxe", "Potato", "Watch", "Rag", "Scrap Metal" };
 
 	public String name;
 

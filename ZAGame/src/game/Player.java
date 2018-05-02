@@ -166,21 +166,18 @@ public class Player implements MouseListener {
 	public void setShirt(Clothes c) {
 		if(shirt != null) {
 			shirt.handleCommand("Undress");
-			inventory.add(shirt.id-1);
 		}
 		shirt = c;
 	}
 	public void setPants(Clothes c) {
 		if(pants != null) {
 			pants.handleCommand("Undress");
-			inventory.add(pants.id-1);
 		}
 		pants = c;
 	}
 	public void setWeapon(Weapon w) {
 		if(weapon != null) {
 			weapon.handleCommand("Dequip");
-			inventory.add(weapon.id-1);
 		}
 		weapon = w;
 	}

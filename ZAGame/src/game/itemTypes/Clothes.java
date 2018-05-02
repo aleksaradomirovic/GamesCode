@@ -55,7 +55,8 @@ public class Clothes extends Item {
 			invContextMenu.add("Drop");
 		}
 		if(command.equals("Rip")) {
-			handleCommand("Undress");
+			if(game.p1.inventory.inv[id-1] == 1)
+				handleCommand("Undress");
 			
 			game.p1.inventory.add(8);
 			game.p1.inventory.remove(id-1);

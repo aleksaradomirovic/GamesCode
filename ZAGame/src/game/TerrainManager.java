@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 
-import game.objects.Object;
+import game.objects.GameObject;
 
 public class TerrainManager {
 	
@@ -20,7 +20,7 @@ public class TerrainManager {
 			{"Mailbox","House1"};
 	public int[][] vars = new int[objects][3];
 	
-	ArrayList<Object> worldObjects = new ArrayList<Object>();
+	ArrayList<GameObject> worldObjects = new ArrayList<GameObject>();
 	
 	ArrayList<Dimension> chunkloc = new ArrayList<Dimension>();
 	ArrayList<Chunk> terrain = new ArrayList<Chunk>();

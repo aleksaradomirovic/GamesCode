@@ -11,7 +11,7 @@ import game.ItemTable;
 import game.Settlement;
 import game.TerrainManager;
 
-public class Building extends Object {
+public class Building extends GameObject {
 
 	public BufferedImage floor, roof;
 

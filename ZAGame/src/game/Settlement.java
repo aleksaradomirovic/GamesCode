@@ -10,7 +10,7 @@ import java.util.Random;
 import game.entity.Entity;
 import game.objects.Building;
 import game.objects.NullObjectSpace;
-import game.objects.Object;
+import game.objects.GameObject;
 
 public class Settlement {
 	public static final int grid = 80;
@@ -18,7 +18,7 @@ public class Settlement {
 	GamePanel game;
 	TerrainManager parent;
 	
-	Object[][] gridLayout;
+	GameObject[][] gridLayout;
 	public int x, y;
 	public int w, h;
 	
@@ -32,7 +32,7 @@ public class Settlement {
 		h = height;
 		w = width;
 		settlementBox = new Rectangle(x,y,width*grid,height*grid);
-		gridLayout = new Object[width][height];
+		gridLayout = new GameObject[width][height];
 		
 		init();
 		
