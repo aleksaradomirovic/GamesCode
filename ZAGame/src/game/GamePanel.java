@@ -48,6 +48,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public boolean generate;
 	boolean debug = false;
 	int framerate, currentFrame; long msTimer;
+	Frequency activeFrequency = new Frequency();
 
 	public GamePanel(Game g) {
 		frame = g;
@@ -107,6 +108,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		items.update();
 		status.update();
 		terrain.update();
+		activeFrequency.update();
 		
 		if(System.currentTimeMillis() - msTimer < 1000) {
 			currentFrame++;
@@ -161,6 +163,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		status.draw(g);
 		drawTools(g);
 		//p1.drawInventory(g, classic);
+		
+		if(activeFrequency.broadcast)
+			activeFrequency.draw(g);
 		
 		if(inv)
 			p1.inventory.draw(g);
