@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 
+import game.itemTypes.Ammunition;
 import game.itemTypes.Clothes;
 import game.itemTypes.Food;
 import game.itemTypes.Item;
@@ -33,6 +34,8 @@ public class ItemManager {
 			r = new Weapon(0,0,id,panel,i);
 		} else if(type == Item.tool) {
 			r = new Tool(0,0,id,panel,i);
+		} else if(type == Item.ammo) {
+			r = new Ammunition(0,0,id,panel,i);
 		}
 		
 		if(spawnInMap && r != null) {

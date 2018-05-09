@@ -3,6 +3,10 @@ package game.entity;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import game.GamePanel;
 import game.Settlement;
@@ -14,6 +18,7 @@ public class Entity {
 	GamePanel game;
 	Rectangle agroBox = new Rectangle();
 	Rectangle hitBox = new Rectangle();
+	BufferedImage zom;
 	
 	int type;
 	
@@ -27,6 +32,13 @@ public class Entity {
 		
 		if(feral) {
 			type = zombie;
+		}
+		
+		try {
+			zom = ImageIO.read(this.getClass().getResourceAsStream("zombie_pixelart.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		this.x = x+s.x;
@@ -65,9 +77,7 @@ public class Entity {
 	}
 	
 	public void draw(Graphics g) {
-		g.setColor(Color.YELLOW);
-		g.drawRect(x_s, y_s, 25, 25);
 		g.setColor(Color.RED);
-		g.drawRect(x_s-50, y_s-50, 125, 125);
+		g.drawImage(zom, x_s, y_s, 24, 35, null);
 	}
 }

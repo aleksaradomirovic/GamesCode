@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
+
 import javax.imageio.ImageIO;
 
 import game.itemTypes.Clothes;
@@ -46,6 +48,7 @@ public class Player implements MouseListener {
 		inventory.add(5);
 		inventory.add(4);
 		inventory.add(7);
+		inventory.add(10, (new Random().nextInt(8)+3)*7);
 	}
 	
 	void update() {

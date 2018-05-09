@@ -16,7 +16,7 @@ public class Item {
 	 * id, type (0 generic, 1 clothes, 2 food), sectype, othervars [3-9]
 	 */
 
-	public static final int clothes = 1, food = 2, weapon = 3, tool = 4;
+	public static final int clothes = 1, food = 2, weapon = 3, tool = 4, ammo = 5;
 
 	int x, y;
 
@@ -29,11 +29,11 @@ public class Item {
 	utils u = new utils();
 	ItemGeneral info;
 
-	public final static int items = 10;
+	public final static int items = 11;
 	public static int vars[][] = new int[items][10];
 
 	public final static String[] names = new String[] { "Green Parka", "Jeans", "Red Shirt", "Soda", "Antibiotics",
-			"Pickaxe", "Potato", "Watch", "Rag", "Scrap Metal" };
+			"Pickaxe", "Potato", "Watch", "Rag", "Scrap Metal", "9mm Round" };
 
 	public String name;
 
@@ -45,7 +45,8 @@ public class Item {
 		this.y = y;
 		this.id = id;
 		try {
-			img = ImageIO.read(this.getClass().getResourceAsStream("image/" + id + ".png"));
+			if(i.vars[id - 1][1] != ammo)
+				img = ImageIO.read(this.getClass().getResourceAsStream("image/" + id + ".png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -61,7 +62,10 @@ public class Item {
 		if (hitBox.intersects(game.p1.hitBox)) {
 			game.ds = true;
 			if (game.pickup) {
-				game.p1.inventory.add(id-1);
+				if(info.vars[id-1][1] != ammo)
+					game.p1.inventory.add(id-1);
+				else
+					game.p1.inventory.add(id-1, info.vars[id-1][3]);
 				game.items.items.remove(this);
 			}
 		}
@@ -78,7 +82,7 @@ public class Item {
 	}
 
 	public void handleCommand(String command) {
-		if (command.equals("Drop")) {
+		if (command.equals("Drop") && !(this instanceof Ammunition)) {
 			x = game.p1.x + 400;
 			y = game.p1.y + 300;
 

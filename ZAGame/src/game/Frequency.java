@@ -10,26 +10,26 @@ public class Frequency {
 	int cooldown = 0;
 	boolean broadcast = false;
 	String[] message;
-	int i;
+	int i = 0;
 	
 	public Frequency() {
 		freq = rnd.nextInt(8) + 121 + "." + rnd.nextInt(10) + "00";
 	}
 	
 	void update() {
-		if(message == null) {
-			message = Radio.generateBroadcast(freq);
-			i = 0;
+//		if(message == null) {
+//			message = Radio.generateBroadcast(freq);
+//			i = 0;
+//			cooldown = 0;
+//		} else {
+		cooldown++;
+		if(cooldown > 300) {
+			i++;
 			cooldown = 0;
-		} else {
-			cooldown++;
-			if(cooldown > 300) {
-				i++;
-				cooldown = 0;
-			}
 		}
-		if(i >= message.length) {
-			message = null;
+//		}
+		if(message == null || message[i] == null) {
+			message = Radio.generateBroadcast(freq);
 			i = 0;
 		}
 	}
