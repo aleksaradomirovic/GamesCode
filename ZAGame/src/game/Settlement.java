@@ -34,6 +34,7 @@ public class Settlement {
 		settlementBox = new Rectangle(x,y,width*grid,height*grid);
 		gridLayout = new GameObject[width][height];
 		
+		initRoads();
 		initBuildings();
 		
 		parent.settlements.add(this);
@@ -48,7 +49,18 @@ public class Settlement {
 	}
 	
 	void initRoads() {
+		int roadY = 0, roadX = 1;
 		
+		for(int j = 0; j < (w-1)/2; j++) {
+			roadY = 0;
+			for(int i = 0; i < h; i++) {
+				System.out.println(roadX +","+ roadY);
+				
+				gridLayout[roadX][roadY] = new Road(roadX,roadY,game, this);
+				roadY++;
+			}
+			roadX+=2;
+		}
 	}
 	
 	void initBuildings() {
