@@ -12,7 +12,6 @@ public class Chunk {
 	public static final int settlementChance = 10;
 	
 	Settlement chunkSettlement;
-	RoadMap roads;
 	
 	public Terrain[][] chunk = new Terrain[chunkSize][chunkSize];
 	GamePanel game;
@@ -36,11 +35,6 @@ public class Chunk {
 		if(new Random().nextInt(100) < settlementChance || set) {
 			chunkSettlement = new Settlement(x,y, 2 * new Random().nextInt(5)+2, 3 + 2 * new Random().nextInt(2), game, game.terrain);
 		}
-		
-		if(bordersSettlement() != 0) {
-			System.out.println("New RoadMap");
-			roads = new RoadMap(x, y, game);
-		}
 	}
 	
 	void update() {
@@ -54,8 +48,6 @@ public class Chunk {
 		}
 		if(chunkSettlement != null)
 			chunkSettlement.update();
-		if(roads != null)
-			roads.update();
 	}
 	void draw(Graphics g) {
 		//System.out.println("Processed Chunk");
@@ -69,8 +61,6 @@ public class Chunk {
 		}
 		if(chunkSettlement != null)
 			chunkSettlement.draw(g);
-		if(roads != null)
-			roads.draw(g);
 	}
 	void drawRoof(Graphics g) {
 		if(chunkSettlement != null)

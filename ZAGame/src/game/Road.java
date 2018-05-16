@@ -23,18 +23,6 @@ public class Road extends GameObject{
 		game = p;
 	}
 	
-	public Road(int x, int y, GamePanel p, RoadMap s) {
-		super(x,y,0,p,null);
-		this.x = x*Settlement.grid+s.x;
-		this.y = y*Settlement.grid+s.y;
-		try {
-			img = ImageIO.read(this.getClass().getResourceAsStream("terrain/roads/2lane_1.png"));
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-		game = p;
-	}
-	
 	@Override
 	public void update() {
 		x_s = x - game.p1.x;

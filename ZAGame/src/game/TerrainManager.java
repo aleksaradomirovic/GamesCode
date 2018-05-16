@@ -84,4 +84,29 @@ public class TerrainManager {
 		genChunk(c.x, c.y+Chunk.width, false);
 		genChunk(c.x, c.y-Chunk.width, false);
 	}
+	
+	Chunk getChunk(Dimension loc) {
+		for(int i = 0; i < chunkloc.size(); i++) {
+			if(chunkloc.get(i) == loc) {
+				return terrain.get(i);
+			}
+		}
+		return null;
+	}
+	
+	Dimension[] findRoadEntrances(Chunk target) {
+		Dimension[] r = new Dimension[12];
+		Chunk t;
+		int x, y;
+		
+		for(x = 0; x < 4; x++) {
+			if(x == 0) {
+				t = getChunk(new Dimension(target.x-Chunk.width, target.y));
+				for(y = 0; y < 4; y++) {
+					
+				}
+			}
+		}
+		return r;
+	}
 }

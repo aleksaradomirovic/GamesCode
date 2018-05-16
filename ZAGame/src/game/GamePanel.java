@@ -13,6 +13,7 @@ import java.util.Random;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import game.entity.Projectile;
 import game.objects.Note;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
@@ -48,7 +49,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public boolean generate;
 	boolean debug = false;
 	int framerate, currentFrame; long msTimer;
-	Frequency activeFrequency = new Frequency();
+	Projectile test = new Projectile(0, 60, 10, 400, 300, 45, this);
 
 	public GamePanel(Game g) {
 		frame = g;
@@ -103,12 +104,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				}
 			}
 		}
-	
+		
+		test.update();
 		p1.update();
 		items.update();
 		status.update();
 		terrain.update();
-		activeFrequency.update();
 		
 		if(System.currentTimeMillis() - msTimer < 1000) {
 			currentFrame++;
@@ -135,6 +136,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		items.draw(g);
 		terrain.drawRoof(g);
 		p1.draw(g);
+		test.draw(g);
 		terrain.drawFoliage(g);
 
 		g.setColor(Color.RED);
@@ -163,9 +165,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		status.draw(g);
 		drawTools(g);
 		//p1.drawInventory(g, classic);
-		
-		if(activeFrequency.broadcast)
-			activeFrequency.draw(g);
 		
 		if(inv)
 			p1.inventory.draw(g);

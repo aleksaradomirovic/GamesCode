@@ -109,12 +109,7 @@ public class Inventory {
 				} else 
 					setback++;
 			}
-		} else if(mode == RADIO) {
-			g.drawString(game.activeFrequency.freq, 126, 123);
-			if(game.activeFrequency.broadcast) {
-				g.fillRect(110, 117, 4, 4);
-			}
-		}
+		} else if(mode == RADIO) {}
 	}
 	
 	public void add(int id) {
@@ -171,12 +166,7 @@ public class Inventory {
 			game.invContext = false;
 			System.out.println("Handled item");
 			game.inv_Sel = lowestValue();
-		} else if(game.inv && game.invContext && mode == RADIO) {
-			if(game.activeFrequency.broadcast)
-				game.activeFrequency.broadcast = false;
-			else
-				game.activeFrequency.broadcast = true;
-		}
+		} else if(game.inv && game.invContext && mode == RADIO) {}
 	}
 	
 	public void nextMode() {
