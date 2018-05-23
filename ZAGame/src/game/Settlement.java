@@ -37,7 +37,9 @@ public class Settlement {
 		this.set = set;
 		
 		initRoads();
-		initBuildings();
+		
+		if(set)
+			initBuildings();
 		
 		parent.settlements.add(this);
 	}
@@ -52,7 +54,8 @@ public class Settlement {
 	
 	void initRoads() {
 		if(x == 0 && y == 0) {
-			gridLayout[0][1] = new Road(0,1,game,this);
+			addRoad(0,1);
+			// addRoad(0,2);
 		}
 	}
 	
@@ -129,28 +132,31 @@ public class Settlement {
 		return false;
 	}
 	
+	void addRoad(int x, int y) {
+		gridLayout[x][y] = new Road(x,y,game,this);
+		extendRoad(x, y);
+	}
+	
 	void extendRoad(int x, int y) {
-		/*  0
+		/* DIRECTION IDS
+		 *  0
 		 * 1 2
 		 *  3
 		 */
-		boolean ext = false;
-		
-		if(x > 0 && x < 9 && gridLayout[x-1][y] instanceof Road && gridLayout[x+1][y] == null) {
-			gridLayout[x+1][y] = new Road(x+1, y, game, this);
-			ext = true;
-		}
-		if(x > 0 && x < 9 && gridLayout[x+1][y] instanceof Road && gridLayout[x-1][y] == null) {
-			gridLayout[x-1][y] = new Road(x-1, y, game, this);
-			ext = true;
-		}
-		if(y > 0 && x < 9 && gridLayout[x][y-1] instanceof Road && gridLayout[x][y+1] == null) {
-			gridLayout[x][y+1] = new Road(x, y+1, game, this);
-			ext = true;
-		}
-		if(y > 0 && x < 9 && gridLayout[x][y+1] instanceof Road && gridLayout[x][y-1] == null) {
-			gridLayout[x][y-1] = new Road(x, y-1, game, this);
-			ext = true;
+//		if(x > 0 && x < 9 && gridLayout[x-1][y] instanceof Road && gridLayout[x+1][y] == null) {
+//			gridLayout[x+1][y] = new Road(x+1, y, game, this);
+//		}
+//		if(x > 0 && x < 9 && gridLayout[x+1][y] instanceof Road && gridLayout[x-1][y] == null) {
+//			gridLayout[x-1][y] = new Road(x-1, y, game, this);
+//		}
+//		if(y > 0 && x < 9 && gridLayout[x][y-1] instanceof Road && gridLayout[x][y+1] == null) {
+//			gridLayout[x][y+1] = new Road(x, y+1, game, this);
+//		}
+//		if(y > 0 && x < 9 && gridLayout[x][y+1] instanceof Road && gridLayout[x][y-1] == null) {
+//			gridLayout[x][y-1] = new Road(x, y-1, game, this);
+//		}
+		if(y + 1 < 10) {
+			addRoad(x, y+1);
 		}
 	}
 	

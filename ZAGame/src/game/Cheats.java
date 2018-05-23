@@ -100,6 +100,20 @@ public class Cheats implements KeyListener{
 				} else {
 					printErrorTrace("Invalid TELEPORT argument");
 				}
+			} else if(command.substring(1,space1).equals("movebind")) {
+				int s2 = space1+1;
+				while(s2 < command.length() && command.charAt(s2) != ' ') {
+					s2++;
+				}
+				
+				if(s2 != command.length() && space1 != command.length()) {
+					if(command.substring(space1+1, s2).equals("wasd")) {
+						println("Set movement bind to WASD");
+					} else if(command.substring(space1+1, s2).equals("arrows")) {
+						println("Set movement bind to ARROWS");
+						// TODO println("");
+					}
+				}
 			}
 		} else {
 			System.out.println("not command");

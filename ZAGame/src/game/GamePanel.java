@@ -38,6 +38,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public Note interactable;
 	boolean write;
 	public int currentTutorial = 0, lastTutorialms;
+	public boolean wasd;
+	String osname;
 	// Settlement s = new Settlement(0, 0, 2 * rnd.nextInt(5)+2,3 + 2 * rnd.nextInt(2), this, terrain);
 
 	public static Font classic = new Font("Arial", Font.PLAIN, 10);
@@ -55,9 +57,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		frame = g;
 	}
 
-	@SuppressWarnings("static-access")
 	void startGame() {
 		Calendar start = Calendar.getInstance();
+		
+		osname = System.getProperty("os.name");
+		System.out.println(osname);
+		if(osname.equals("Mac OS X")) {
+			wasd = false;
+			System.out.println("OS X detected; setting keybinds to preferrable mode");
+		} else {
+			wasd = true;
+		}
+		
 		p1.initPlayer();
 		cap.start();
 //		for (int i = 0; i < 20; i++) {
@@ -196,19 +207,35 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		// System.out.println("KeyPressed "+e.getKeyChar());
-		if(!debug && !esc) {
-			if (e.getKeyChar() == 'a') {
-				p1.left = true;
-			} else if (e.getKeyChar() == 'd') {
-				p1.right = true;
-			}
-			if (e.getKeyChar() == 'w') {
-				p1.up = true;
-			} else if (e.getKeyChar() == 's') {
-				p1.down = true;
-			}
-			if (e.getKeyChar() == 'f') {
-				pickup = true;
+		if(!debug && !esc && !inv) {
+			if(wasd) {
+				if (e.getKeyChar() == 'a') {
+					p1.left = true;
+				} else if (e.getKeyChar() == 'd') {
+					p1.right = true;
+				}
+				if (e.getKeyChar() == 'w') {
+					p1.up = true;
+				} else if (e.getKeyChar() == 's') {
+					p1.down = true;
+				}
+				if (e.getKeyChar() == 'f') {
+					pickup = true;
+				}
+			} else {
+				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+					p1.left = true;
+				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+					p1.right = true;
+				}
+				if (e.getKeyCode() == KeyEvent.VK_UP) {
+					p1.up = true;
+				} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+					p1.down = true;
+				}
+				if (e.getKeyChar() == 'f') {
+					pickup = true;
+				}
 			}
 			
 			if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
@@ -302,19 +329,36 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 		// System.out.println("KeyReleased "+e.getKeyChar());
 		if(!debug) {
-			if (e.getKeyChar() == 'a') {
-				p1.left = false;
-			} else if (e.getKeyChar() == 'd') {
-				p1.right = false;
+			if(wasd) {
+				if (e.getKeyChar() == 'a') {
+					p1.left = false;
+				} else if (e.getKeyChar() == 'd') {
+					p1.right = false;
+				}
+				if (e.getKeyChar() == 'w') {
+					p1.up = false;
+				} else if (e.getKeyChar() == 's') {
+					p1.down = false;
+				}
+				if (e.getKeyChar() == 'f') {
+					pickup = false;
+				}
+			} else {
+				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+					p1.left = false;
+				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+					p1.right = false;
+				}
+				if (e.getKeyCode() == KeyEvent.VK_UP) {
+					p1.up = false;
+				} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+					p1.down = false;
+				}
+				if (e.getKeyChar() == 'f') {
+					pickup = false;
+				}
 			}
-			if (e.getKeyChar() == 'w') {
-				p1.up = false;
-			} else if (e.getKeyChar() == 's') {
-				p1.down = false;
-			}
-			if (e.getKeyChar() == 'f') {
-				pickup = false;
-			}
+			
 			if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 				p1.speed = 3;
 			}

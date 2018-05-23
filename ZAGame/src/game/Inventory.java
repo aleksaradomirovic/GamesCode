@@ -10,6 +10,7 @@ public class Inventory {
 	Item selectedItem;
 	int mode = INVENTORY;
 	public static final int INVENTORY = 0, RADIO = 1;
+	Radio radio = new Radio();
 	
 	public Inventory(GamePanel p) {
 		game = p;
@@ -109,7 +110,9 @@ public class Inventory {
 				} else 
 					setback++;
 			}
-		} else if(mode == RADIO) {}
+		} else if(mode == RADIO) {
+			radio.draw(g);
+		}
 	}
 	
 	public void add(int id) {
