@@ -21,6 +21,7 @@ public class Road extends GameObject{
 			e.printStackTrace();
 		}
 		game = p;
+		s.extendRoad(x, y);
 	}
 	
 	@Override

@@ -17,6 +17,7 @@ public class Settlement {
 	Rectangle settlementBox;
 	GamePanel game;
 	TerrainManager parent;
+	boolean set;
 	
 	GameObject[][] gridLayout;
 	public int x, y;
@@ -24,7 +25,7 @@ public class Settlement {
 	
 	public ArrayList<Entity> zombies = new ArrayList<Entity>();
 	
-	public Settlement(int x, int y, int height, int width, GamePanel p, TerrainManager t) {
+	public Settlement(int x, int y, int height, int width, GamePanel p, TerrainManager t, boolean set) {
 		parent = t;
 		game = p;
 		this.x = x;
@@ -32,7 +33,8 @@ public class Settlement {
 		h = height;
 		w = width;
 		settlementBox = new Rectangle(x,y,width*grid,height*grid);
-		gridLayout = new GameObject[width][height];
+		gridLayout = new GameObject[10][10];
+		this.set = set;
 		
 		initRoads();
 		initBuildings();
@@ -49,17 +51,8 @@ public class Settlement {
 	}
 	
 	void initRoads() {
-		int roadY = 0, roadX = 1;
-		
-		for(int j = 0; j < (w-1)/2; j++) {
-			roadY = 0;
-			for(int i = 0; i < h; i++) {
-				System.out.println(roadX +","+ roadY);
-				
-				gridLayout[roadX][roadY] = new Road(roadX,roadY,game, this);
-				roadY++;
-			}
-			roadX+=2;
+		if(x == 0 && y == 0) {
+			gridLayout[0][1] = new Road(0,1,game,this);
 		}
 	}
 	
@@ -134,6 +127,31 @@ public class Settlement {
 			return r;
 		}
 		return false;
+	}
+	
+	void extendRoad(int x, int y) {
+		/*  0
+		 * 1 2
+		 *  3
+		 */
+		boolean ext = false;
+		
+		if(x > 0 && x < 9 && gridLayout[x-1][y] instanceof Road && gridLayout[x+1][y] == null) {
+			gridLayout[x+1][y] = new Road(x+1, y, game, this);
+			ext = true;
+		}
+		if(x > 0 && x < 9 && gridLayout[x+1][y] instanceof Road && gridLayout[x-1][y] == null) {
+			gridLayout[x-1][y] = new Road(x-1, y, game, this);
+			ext = true;
+		}
+		if(y > 0 && x < 9 && gridLayout[x][y-1] instanceof Road && gridLayout[x][y+1] == null) {
+			gridLayout[x][y+1] = new Road(x, y+1, game, this);
+			ext = true;
+		}
+		if(y > 0 && x < 9 && gridLayout[x][y+1] instanceof Road && gridLayout[x][y-1] == null) {
+			gridLayout[x][y-1] = new Road(x, y-1, game, this);
+			ext = true;
+		}
 	}
 	
 	void addHouse(int size,int x,int y) {

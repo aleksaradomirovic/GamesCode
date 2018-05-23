@@ -33,7 +33,9 @@ public class Chunk {
 			}
 		}
 		if(new Random().nextInt(100) < settlementChance || set) {
-			chunkSettlement = new Settlement(x,y, 2 * new Random().nextInt(5)+2, 3 + 2 * new Random().nextInt(2), game, game.terrain);
+			chunkSettlement = new Settlement(x,y, 2 * new Random().nextInt(5)+2, 3 + 2 * new Random().nextInt(2), game, game.terrain, true);
+		} else {
+			chunkSettlement = new Settlement(x,y, 2 * new Random().nextInt(5)+2, 3 + 2 * new Random().nextInt(2), game, game.terrain, false);
 		}
 	}
 	

@@ -22,6 +22,8 @@ public class Projectile {
 		range = distance;
 		angle = Math.toRadians(direction);
 		game = p;
+		this.x = x;
+		this.y = y;
 	}
 	
 	public void update() {

@@ -95,15 +95,38 @@ public class TerrainManager {
 	}
 	
 	Dimension[] findRoadEntrances(Chunk target) {
-		Dimension[] r = new Dimension[12];
+		Dimension[] r = new Dimension[36];
+		int i = 0;
 		Chunk t;
 		int x, y;
 		
-		for(x = 0; x < 4; x++) {
+		for(x = 0; x < 10; x++) {
 			if(x == 0) {
 				t = getChunk(new Dimension(target.x-Chunk.width, target.y));
-				for(y = 0; y < 4; y++) {
-					
+				for(y = 0; y < 10; y++) {
+					if(t.chunkSettlement.gridLayout[9][y] instanceof Road) {
+						r[i] = new Dimension(0,y);
+						i++;
+					}
+				}
+			} else if(x == 9) {
+				t = getChunk(new Dimension(target.x+Chunk.width, target.y));
+				for(y = 0; y < 10; y++) {
+					if(t.chunkSettlement.gridLayout[0][y] instanceof Road) {
+						r[i] = new Dimension(9,y);
+						i++;
+					}
+				}
+			} else {
+				t = getChunk(new Dimension(target.x, target.y-Chunk.width));
+				if(t.chunkSettlement.gridLayout[x][9] instanceof Road) {
+					r[i] = new Dimension(x,0);
+					i++;
+				}
+				t = getChunk(new Dimension(target.x, target.y+Chunk.width));
+				if(t.chunkSettlement.gridLayout[x][0] instanceof Road) {
+					r[i] = new Dimension(x,9);
+					i++;
 				}
 			}
 		}
