@@ -123,14 +123,15 @@ public class Cheats implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(game.debug) {
-			int kc = e.getKeyCode();
-			if(kc == KeyEvent.VK_BACK_SPACE) {
+			int kcode = e.getKeyCode();
+			char kchar = e.getKeyChar();
+			if(kcode == KeyEvent.VK_BACK_SPACE) {
 				command = command.substring(0, command.length()-1);
-			} else if(kc == KeyEvent.VK_ENTER && command.length() > 0) {
+			} else if(kcode == KeyEvent.VK_ENTER && command.length() > 0) {
 				handleCommand(command);
 				newLine(false);
 			} else {
-				if(!(kc == KeyEvent.VK_F3 || kc == KeyEvent.VK_SHIFT))
+				if(!(kcode == KeyEvent.VK_F3 || kcode == KeyEvent.VK_SHIFT || kchar == '`'))
 					command+=e.getKeyChar();
 			}
 		}

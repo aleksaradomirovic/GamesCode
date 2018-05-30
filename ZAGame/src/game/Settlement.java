@@ -53,10 +53,19 @@ public class Settlement {
 	}
 	
 	void initRoads() {
-		if(x == 0 && y == 0) {
+		//if(x == 0 && y == 0) {
+			addRoad(0,0);
 			addRoad(0,1);
-			// addRoad(0,2);
-		}
+			addRoad(0,2);
+			addRoad(0,3);
+			addRoad(0,4);
+			addRoad(0,5);
+			addRoad(0,6);
+			addRoad(0,7);
+			addRoad(0,8);
+			addRoad(0,9);
+			
+		//}
 	}
 	
 	void initBuildings() {

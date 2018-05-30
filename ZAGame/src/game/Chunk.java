@@ -9,7 +9,7 @@ public class Chunk {
 	
 	public static final int chunkSize = 4;
 	public static final int width = chunkSize*200;
-	public static final int settlementChance = 10;
+	public static final int settlementChance = 100;
 	
 	Settlement chunkSettlement;
 	

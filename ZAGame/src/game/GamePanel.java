@@ -10,6 +10,7 @@ import java.awt.event.KeyListener;
 import java.util.Calendar;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -69,6 +70,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			wasd = true;
 		}
 		
+		if(!wasd) {
+			JOptionPane.showMessageDialog(frame.frame, "MAC OS X Controls :: Arrow Keys to move \n G for inventory, Arrow Keys, enter, esc to navigate inventory");
+		}
+		
 		p1.initPlayer();
 		cap.start();
 //		for (int i = 0; i < 20; i++) {
@@ -80,7 +85,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		System.out.println("StartGame");
 		terrain.genChunk(0, 0, true);
 		
-		playerName = "LOCAL_SERVER_HOST_USER";
+		playerName = "localPlayer";
 		
 		min = start.MINUTE;
 		hr = start.HOUR_OF_DAY;
@@ -314,7 +319,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			// all screens esc
 		}
 
-		if(e.getKeyCode() == KeyEvent.VK_F3) {
+		if(e.getKeyCode() == KeyEvent.VK_F3 || e.getKeyChar() == '`') {
 			if(debug) {
 				debug = false;
 			} else {
@@ -411,12 +416,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			}
 		}
 		
-		g.setColor(Color.WHITE);
-		g.fillRoundRect(0, 0, 400, 50, 10, 10);
-		g.setColor(Color.BLACK);
-		g.drawRoundRect(0, 0, 400, 50, 10, 10);
-		g.setFont(classic);
-		g.drawString(tutorialText, 10, 30);
+		if(currentTutorial < 2) {
+			g.setColor(Color.WHITE);
+			g.fillRoundRect(0, 0, 400, 50, 10, 10);
+			g.setColor(Color.BLACK);
+			g.drawRoundRect(0, 0, 400, 50, 10, 10);
+			g.setFont(classic);
+			g.drawString(tutorialText, 10, 30);
+		}
 	}
 	
 	void drawTools(Graphics g) {
